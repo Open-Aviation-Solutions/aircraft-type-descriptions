@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Aircraft type descriptions",
-  "description": "What is true of an aircraft type wherever it flies, by type designator, each row citing its sources. Licensed under the Mozilla Public License 2.0 (https://mozilla.org/MPL/2.0/). What a schema cannot say (that every source a row names is listed under `sources`, and that `checked-against` and `source-notes` name only the row's own sources) is checked when the crate is built.",
+  "description": "What is true of an aircraft type wherever it flies, by type designator, each row citing its sources. Licensed under the Mozilla Public License 2.0 (https://mozilla.org/MPL/2.0/). What a schema cannot say (that every source a row names is listed under `sources`, and that `checked-against` and `source-notes` name only the row's own sources, and that each section is in byte order of its keys) is checked when the crate is built.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema-version", "sources", "designators"],

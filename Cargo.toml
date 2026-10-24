@@ -27,7 +27,8 @@ serde = { version = "1", features = ["derive"] }
 # parser is in the crate itself, or in anything built from it.
 [build-dependencies]
 serde = { version = "1", features = ["derive"] }
-toml = "1"
+# preserve_order, so build.rs can check the file's order.
+toml = { version = "1", features = ["preserve_order"] }
 
 [dev-dependencies]
 # For the test that the data file fits its schema.

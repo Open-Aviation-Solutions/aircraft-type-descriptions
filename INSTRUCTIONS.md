@@ -25,6 +25,10 @@ as au-casa for CASA's Part 61.
   `[not-to-be-used]`. Prose about a row goes in its `notes`; a note about one
   of its sources goes in `source-notes`, keyed by the source's id; a note true
   of a source for every row goes on the source.
+- **Rows and sources are in alphabetical order** (byte, ASCII, order of their
+  keys, each `source-notes` table directly under its row), so a new row has
+  one place to go and two pull requests adding rows rarely touch the same
+  lines; the build checks it.
 - **One file, until rows conflict.** While the table is small, one file reads
   best, and a new row and its new source are one edit. When pull requests that
   add rows start to conflict, split it as one file per designator
@@ -36,11 +40,12 @@ as au-casa for CASA's Part 61.
   nothing for them. `schema-version` then needs a home of its own
   (`sources.toml`, or a small manifest).
 - `aircraft-type-descriptions.schema.json` (JSON Schema, draft 2020-12) says
-  what each field holds; `make schema-check`, part of `make check`, checks the
-  file against it (`make test`, and so `make check`, runs it too). What a schema cannot say (each source a row names is
-  listed; `checked-against` and `source-notes` name only the row's own
-  sources; `schema-version` is the one the crate reads) is checked by
-  `build.rs`, so a file that breaks it does not build.
+  what each field holds; `make schema-check` checks the file against it, and
+  `make test`, and so `make check`, runs the same test. What a schema cannot
+  say (each source a row names is listed; `checked-against` and
+  `source-notes` name only the row's own sources; `schema-version` is the one
+  the crate reads; the order of the keys) is checked by `build.rs`, so a file
+  that breaks it does not build.
 - `build.rs` turns the file into Rust statics, which `src/table.rs` includes.
   `toml` is a build-dependency only: nothing parses the file when the crate
   runs, and no TOML parser is in the crate, or in a WebAssembly build of

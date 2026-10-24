@@ -16,70 +16,30 @@
 # `checked-against` means the sheet was read, so do not add a source to it
 # without reading it.
 #
+# A source not yet read says so in its notes, with what is still to find (a
+# revision, a sheet's number, or the data sheet itself), and a row citing only
+# such sources stays provisional until someone reads the actual sheet. The
+# sources moved from au-casa whose notes say what is still to find were
+# identified by public search rather than by opening the document (au-casa
+# tasks 0003 and 0004); none of them has been read.
+#
+# Each section is in byte (ASCII) order of its keys: sources by id, rows by
+# designator. A row's `source-notes` table goes directly under it. The build
+# checks the order.
+#
 # The table grows when a type is needed, rather than trying to list every
 # designator. A designator not in it is not known, not refused.
 #
 # The schema (aircraft-type-descriptions.schema.json) says what each field
 # holds. What it cannot say is checked when the crate is built (build.rs):
-# every source a row names is listed under `sources`, and `checked-against`
-# and `source-notes` name only the row's own sources.
+# every source a row names is listed under `sources`, `checked-against` and
+# `source-notes` name only the row's own sources, and the order (above).
 
 schema-version = 1
 
 # --- Sources ----------------------------------------------------------------
 #
 # Each written once, and named by its id from each row it gives facts for.
-
-[sources.faa-3A12]
-title = "FAA Type Certificate Data Sheet 3A12"
-kind = "type-certificate-data-sheet"
-revision = "rev 80 (26 May 2010)"
-
-[sources.faa-A7SO]
-title = "FAA Type Certificate Data Sheet A7SO"
-kind = "type-certificate-data-sheet"
-revision = "rev 24 (9 Apr 2019)"
-
-[sources.faa-A37CE]
-title = "FAA Type Certificate Data Sheet A37CE"
-kind = "type-certificate-data-sheet"
-revision = "rev 22 (31 Oct 2017)"
-
-[sources.faa-A-759]
-title = "FAA Type Certificate Data Sheet A-759"
-kind = "type-certificate-data-sheet"
-revision = "rev 73 (9 Feb 2011)"
-
-[sources.easa-IMA232]
-title = "EASA Type-Certificate Data Sheet IM.A.232"
-kind = "type-certificate-data-sheet"
-revision = "issue 03 (10 Feb 2017)"
-
-[sources.manufacturer-model]
-title = "Manufacturer model series"
-kind = "manufacturer-information"
-notes = "Pending verification against an FAA or EASA type certificate data sheet."
-
-# The candidate sources below were identified by public search rather than by
-# opening the document (au-casa tasks 0003 and 0004). None has been read, and
-# each says in its notes what is still to find (a revision, a sheet's number,
-# or the data sheet itself), so every row citing one stays provisional until
-# someone reads the actual sheet.
-
-[sources.faa-3A19]
-title = "FAA Type Certificate Data Sheet 3A19 (Cessna 150/152)"
-kind = "type-certificate-data-sheet"
-notes = "A candidate: the revision is not yet checked."
-
-[sources.faa-2A13]
-title = "FAA Type Certificate Data Sheet 2A13 (Piper PA-28 family)"
-kind = "type-certificate-data-sheet"
-notes = "A candidate: the revision is not yet checked."
-
-[sources.easa-A221]
-title = "EASA Type-Certificate Data Sheet EASA.A.221 (Schleicher ASK-21Mi)"
-kind = "type-certificate-data-sheet"
-notes = "A candidate: the revision is not yet checked."
 
 [sources.easa-A025]
 title = "EASA Type-Certificate Data Sheet EASA.A.025 (Schempp-Hirth Duo Discus T)"
@@ -88,10 +48,30 @@ notes = """
 A candidate: the revision is not yet checked. Issued for the base airframe.
 """
 
-[sources.lba-345]
-title = "LBA type certificate 345 (Rolladen-Schneider LS4)"
-kind = "type-certificate"
-notes = "The exact EASA type certificate data sheet reference has not yet been found."
+[sources.easa-A221]
+title = "EASA Type-Certificate Data Sheet EASA.A.221 (Schleicher ASK-21Mi)"
+kind = "type-certificate-data-sheet"
+notes = "A candidate: the revision is not yet checked."
+
+[sources.easa-IMA232]
+title = "EASA Type-Certificate Data Sheet IM.A.232"
+kind = "type-certificate-data-sheet"
+revision = "issue 03 (10 Feb 2017)"
+
+[sources.faa-2A13]
+title = "FAA Type Certificate Data Sheet 2A13 (Piper PA-28 family)"
+kind = "type-certificate-data-sheet"
+notes = "A candidate: the revision is not yet checked."
+
+[sources.faa-3A12]
+title = "FAA Type Certificate Data Sheet 3A12"
+kind = "type-certificate-data-sheet"
+revision = "rev 80 (26 May 2010)"
+
+[sources.faa-3A19]
+title = "FAA Type Certificate Data Sheet 3A19 (Cessna 150/152)"
+kind = "type-certificate-data-sheet"
+notes = "A candidate: the revision is not yet checked."
 
 [sources.faa-8GCBC]
 title = "FAA Type Certificate Data Sheet for the American Champion 8GCBC Scout"
@@ -102,10 +82,35 @@ A candidate: the exact number is not yet found. Not assumed to be A-759 \
 designs are not guaranteed to share it.
 """
 
+[sources.faa-A-759]
+title = "FAA Type Certificate Data Sheet A-759"
+kind = "type-certificate-data-sheet"
+revision = "rev 73 (9 Feb 2011)"
+
+[sources.faa-A37CE]
+title = "FAA Type Certificate Data Sheet A37CE"
+kind = "type-certificate-data-sheet"
+revision = "rev 22 (31 Oct 2017)"
+
+[sources.faa-A7SO]
+title = "FAA Type Certificate Data Sheet A7SO"
+kind = "type-certificate-data-sheet"
+revision = "rev 24 (9 Apr 2019)"
+
 [sources.faa-pitts-S-2A]
 title = "FAA Type Certificate Data Sheet for the Aerotek/Christen Pitts S-2A"
 kind = "type-certificate-data-sheet"
 notes = "A candidate: the exact number is not yet found."
+
+[sources.lba-345]
+title = "LBA type certificate 345 (Rolladen-Schneider LS4)"
+kind = "type-certificate"
+notes = "The exact EASA type certificate data sheet reference has not yet been found."
+
+[sources.manufacturer-model]
+title = "Manufacturer model series"
+kind = "manufacturer-information"
+notes = "Pending verification against an FAA or EASA type certificate data sheet."
 
 [sources.skybrary-aircraft-type-designator]
 title = "SKYbrary, Aircraft Type Designator"
@@ -122,6 +127,53 @@ Its list of generic designators gives GLID for both "Glider" and \
 # row: it varies between airframes of one type, so it is the consumer's to
 # record per aircraft.
 
+[designators.AS21]
+models = "Schleicher ASK 21 Mi"
+airframe = "glider"
+engines = 1
+engine-type = "piston"
+sources = ["easa-A221"]
+notes = """
+The self-launching variant, not the plain, unpowered ASK 21: it has a \
+retractable IAE R50-AA rotary engine (41 kW), hence one piston engine, not \
+zero. The plain ASK 21 is not known to have a designator of its own; an \
+unpowered glider without one is filed as GLID.
+
+The engine count and type describe the real airframe: an aircraft logged \
+under this designator is the motorglider, not the plain trainer. (A \
+consumer that reads a glider by its airframe alone, as CASA's Part 61 \
+category does, is not affected either way.)
+"""
+
+[designators.AS21.source-notes]
+easa-A221 = """
+Not yet confirmed whether this sheet covers the self-launching Mi variant \
+directly, or the airframe is certified through a supplemental or POA on the \
+base ASK 21's own sheet.
+"""
+
+[designators.BL8]
+models = "American Champion 8GCBC Scout"
+airframe = "landplane"
+engines = 1
+engine-type = "piston"
+sources = ["faa-8GCBC"]
+notes = """
+Not the same designator as the Citabria (CH7A, CH7B) despite sharing a \
+manufacturer lineage: the Scout has a designator of its own.
+"""
+
+[designators.C152]
+models = "Cessna 152"
+airframe = "landplane"
+engines = 1
+engine-type = "piston"
+sources = ["faa-3A19"]
+notes = """
+Lycoming O-235. Shares TCDS 3A19 with the Cessna 150. Still provisional: the \
+sheet was identified by public search, not read.
+"""
+
 [designators.C172]
 models = "Cessna 172 Skyhawk"
 airframe = "landplane"
@@ -136,48 +188,6 @@ through 172S. Float variants are approved (172A onward are "PCL-SM"), which \
 is per airframe, and so not part of the row.
 """
 
-[designators.PA25]
-models = "Piper PA-25 Pawnee"
-airframe = "landplane"
-engines = 1
-engine-type = "piston"
-sources = ["manufacturer-model"]
-notes = """
-Tailwheel; undercarriage is per airframe, and so not part of the row.
-
-Still provisional: the Pawnee's TCDS could not be obtained. It is not 1A11, \
-a plausible-looking guess that turns out to be wrong: the Pawnee is \
-certificated in the restricted category under a different sheet. Confirm the \
-number before promoting the row.
-"""
-
-[designators.PA34]
-models = "Piper PA-34 Seneca"
-airframe = "landplane"
-engines = 2
-engine-type = "piston"
-sources = ["faa-A7SO"]
-checked-against = ["faa-A7SO"]
-notes = """
-TCDS A7SO I: one Lycoming IO-360-C1E6 and one LIO-360-C1E6 \
-(counter-rotating), both reciprocating. Covers PA-34-200, -200T and -220T.
-"""
-
-[designators.PA44]
-models = "Piper PA-44 Seminole"
-airframe = "landplane"
-engines = 2
-engine-type = "piston"
-sources = ["easa-IMA232"]
-checked-against = ["easa-IMA232"]
-notes = """
-EASA IM.A.232 A.III.2 describes it outright: "Twin engine reciprocating, \
-all-metal, four-place, unpressurized, low wing aeroplane, retractable \
-tricycle landing gear." Engines are Lycoming O-360/LO-360. The EASA sheet is \
-used because it states the configuration explicitly; the FAA equivalent is \
-A19SO.
-"""
-
 [designators.C208]
 models = "Cessna 208 Caravan"
 airframe = "landplane"
@@ -189,18 +199,6 @@ notes = """
 TCDS A37CE I: one Pratt & Whitney Canada PT6A-114 or PT6A-114A Turbo Prop. \
 Approved as both landplane ("11 PCLM") and seaplane ("11 PCSM"); floats are \
 per airframe, and so not part of the row.
-"""
-
-[designators.R44]
-models = "Robinson R44"
-airframe = "helicopter"
-engines = 1
-engine-type = "piston"
-sources = ["manufacturer-model"]
-notes = """
-Still provisional: TC H11NM is the right certificate, but the data sheet \
-itself was not obtainable free of a login, so nobody has read it. The \
-Lycoming O-540 fitment is manufacturer information.
 """
 
 [designators.CH7A]
@@ -237,65 +235,6 @@ checked-against = ["faa-A-759"]
 notes = """
 TCDS A-759 XIX and XX: Lycoming O-320-A2B/C2B/A2D; XXI: Lycoming IO-320-E2A \
 or AEIO-320-E2B. One reciprocating engine throughout. See CH7A on the split.
-"""
-
-[designators.C152]
-models = "Cessna 152"
-airframe = "landplane"
-engines = 1
-engine-type = "piston"
-sources = ["faa-3A19"]
-notes = """
-Lycoming O-235. Shares TCDS 3A19 with the Cessna 150. Still provisional: the \
-sheet was identified by public search, not read.
-"""
-
-[designators.P28A]
-models = "Piper PA-28, fixed-gear family (Cherokee, Warrior, Archer), fixed-pitch propeller"
-airframe = "landplane"
-engines = 1
-engine-type = "piston"
-sources = ["faa-2A13"]
-notes = """
-TC 2A13 spans PA-28-140 through PA-28-236. "PA28" itself is not a current \
-designator: it was retired around 1998 and split into P28A, P28B, P28R, P28T \
-and P28U (see PA28 under not-to-be-used), so this row is keyed P28A, not PA28.
-
-The split between fixed and retractable gear is made by the designators \
-themselves, between this row and P28R; this table does not infer it.
-"""
-
-[designators.P28R]
-models = "Piper PA-28R Arrow, retractable gear (PA-28R-180, -200, -201 and others)"
-airframe = "landplane"
-engines = 1
-engine-type = "piston"
-sources = ["faa-2A13"]
-notes = "Same TC 2A13 as P28A."
-
-[designators.AS21]
-models = "Schleicher ASK 21 Mi"
-airframe = "glider"
-engines = 1
-engine-type = "piston"
-sources = ["easa-A221"]
-notes = """
-The self-launching variant, not the plain, unpowered ASK 21: it has a \
-retractable IAE R50-AA rotary engine (41 kW), hence one piston engine, not \
-zero. The plain ASK 21 is not known to have a designator of its own; an \
-unpowered glider without one is filed as GLID.
-
-The engine count and type describe the real airframe: an aircraft logged \
-under this designator is the motorglider, not the plain trainer. (A \
-consumer that reads a glider by its airframe alone, as CASA's Part 61 \
-category does, is not affected either way.)
-"""
-
-[designators.AS21.source-notes]
-easa-A221 = """
-Not yet confirmed whether this sheet covers the self-launching Mi variant \
-directly, or the airframe is certified through a supplemental or POA on the \
-base ASK 21's own sheet.
 """
 
 [designators.DUOD]
@@ -357,15 +296,69 @@ Whether LS4 is even a designator of its own for this type, rather than the \
 generic GLID, is also unconfirmed: see the LS4 and GLID rows' notes.
 """
 
-[designators.BL8]
-models = "American Champion 8GCBC Scout"
+[designators.P28A]
+models = "Piper PA-28, fixed-gear family (Cherokee, Warrior, Archer), fixed-pitch propeller"
 airframe = "landplane"
 engines = 1
 engine-type = "piston"
-sources = ["faa-8GCBC"]
+sources = ["faa-2A13"]
 notes = """
-Not the same designator as the Citabria (CH7A, CH7B) despite sharing a \
-manufacturer lineage: the Scout has a designator of its own.
+TC 2A13 spans PA-28-140 through PA-28-236. "PA28" itself is not a current \
+designator: it was retired around 1998 and split into P28A, P28B, P28R, P28T \
+and P28U (see PA28 under not-to-be-used), so this row is keyed P28A, not PA28.
+
+The split between fixed and retractable gear is made by the designators \
+themselves, between this row and P28R; this table does not infer it.
+"""
+
+[designators.P28R]
+models = "Piper PA-28R Arrow, retractable gear (PA-28R-180, -200, -201 and others)"
+airframe = "landplane"
+engines = 1
+engine-type = "piston"
+sources = ["faa-2A13"]
+notes = "Same TC 2A13 as P28A."
+
+[designators.PA25]
+models = "Piper PA-25 Pawnee"
+airframe = "landplane"
+engines = 1
+engine-type = "piston"
+sources = ["manufacturer-model"]
+notes = """
+Tailwheel; undercarriage is per airframe, and so not part of the row.
+
+Still provisional: the Pawnee's TCDS could not be obtained. It is not 1A11, \
+a plausible-looking guess that turns out to be wrong: the Pawnee is \
+certificated in the restricted category under a different sheet. Confirm the \
+number before promoting the row.
+"""
+
+[designators.PA34]
+models = "Piper PA-34 Seneca"
+airframe = "landplane"
+engines = 2
+engine-type = "piston"
+sources = ["faa-A7SO"]
+checked-against = ["faa-A7SO"]
+notes = """
+TCDS A7SO I: one Lycoming IO-360-C1E6 and one LIO-360-C1E6 \
+(counter-rotating), both reciprocating. Covers PA-34-200, -200T and -220T.
+"""
+
+[designators.PA44]
+models = "Piper PA-44 Seminole"
+airframe = "landplane"
+engines = 2
+engine-type = "piston"
+sources = ["easa-IMA232"]
+checked-against = ["easa-IMA232"]
+notes = """
+EASA IM.A.232 A.III.2 describes it outright: "Twin engine reciprocating, \
+all-metal, four-place, unpressurized, low wing aeroplane, retractable \
+tricycle landing gear." Engines are Lycoming O-360/LO-360. The EASA sheet is \
+used because it states the configuration explicitly; the FAA equivalent is \
+A19SO.
 """
 
 [designators.PTS2]
@@ -377,6 +370,18 @@ sources = ["faa-pitts-S-2A"]
 notes = """
 Aerobatic biplane. "Pitts S2A" is a model name, not the designator; this row \
 is keyed PTS2.
+"""
+
+[designators.R44]
+models = "Robinson R44"
+airframe = "helicopter"
+engines = 1
+engine-type = "piston"
+sources = ["manufacturer-model"]
+notes = """
+Still provisional: TC H11NM is the right certificate, but the data sheet \
+itself was not obtainable free of a login, so nobody has read it. The \
+Lycoming O-540 fitment is manufacturer information.
 """
 
 # --- Designators not to be used ----------------------------------------------

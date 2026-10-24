@@ -70,10 +70,11 @@ assert!(table.not_to_be_used("PA28").unwrap().replaced_by.contains(&"P28A"));
 ## Adding a designator
 
 Add a row under `[designators]` in `aircraft-type-descriptions.toml`, and its
-sources under `[sources]` if they are not there yet. Name a source in
-`checked-against` only once you have read it for the row. `make check` checks
-the file against the schema, and the build checks that the sources a row
-names are listed.
+sources under `[sources]` if they are not there yet, each in its place in
+alphabetical order. Name a source in `checked-against` only once you have
+read it for the row. `make check` checks the file against the schema, and the
+build checks that the sources a row names are listed and that the order is
+kept.
 
 ## Reporting a problem, and contributing
 

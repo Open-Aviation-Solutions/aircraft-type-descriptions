@@ -8,8 +8,9 @@
 //!
 //! The fields' types are the schema's; serde refuses a field or value that is
 //! not one of them. Here too is what the schema cannot say: that every source
-//! a row names is listed, and that `checked-against` and `source-notes` name
-//! only the row's own sources. A file that breaks any of it does not build.
+//! a row names is listed, that `checked-against` and `source-notes` name only
+//! the row's own sources, and that each section is in byte (ASCII) order of
+//! its keys. A file that breaks any of it does not build.
 
 use std::collections::BTreeMap;
 use std::fmt::Write as _;
@@ -127,6 +128,10 @@ fn main() {
         ));
     }
     let file: File = toml::from_str(&text).unwrap_or_else(|e| fail(&format!("{e}")));
+    let ordered: toml::Table = toml::from_str(&text).unwrap_or_else(|e| fail(&format!("{e}")));
+    if let Some(error) = out_of_order(&ordered) {
+        fail(&error);
+    }
 
     let errors = check(&file);
     if !errors.is_empty() {
@@ -140,6 +145,28 @@ fn main() {
 fn fail(message: &str) -> ! {
     eprintln!("{DATA_FILE}: {message}");
     process::exit(1);
+}
+
+/// The first key out of byte order in a section, so that a new row has one
+/// place to go. `ordered` keeps the file's order (toml's `preserve_order`),
+/// which `File`'s maps do not.
+fn out_of_order(ordered: &toml::Table) -> Option<String> {
+    for section in ["sources", "designators", "not-to-be-used"] {
+        let Some(toml::Value::Table(table)) = ordered.get(section) else {
+            continue;
+        };
+        let keys: Vec<&String> = table.keys().collect();
+        for pair in keys.windows(2) {
+            if pair[1].as_bytes() < pair[0].as_bytes() {
+                return Some(format!(
+                    "[{section}.{}] is out of order: it comes after [{section}.{}], and \
+                     each section is in byte (ASCII) order of its keys",
+                    pair[1], pair[0]
+                ));
+            }
+        }
+    }
+    None
 }
 
 /// What the schema cannot say, each broken rule as one line.

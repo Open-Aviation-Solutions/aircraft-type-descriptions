@@ -28,7 +28,9 @@ as au-casa for CASA's Part 61.
   of `make check`, runs `addlicense -check` over the tracked files, which
   fails on a Rust, TOML or YAML file with no licence header, though it does
   not check that the header is the MPL's wording. Neither covers the
-  `Makefile`, which addlicense does not recognise.
+  `Makefile`, which addlicense does not recognise. It sees only tracked
+  files, so a new file not yet added passes locally and fails in CI; and it
+  passes a tracked file it cannot read (deleted but not staged, say).
 
 ## Commands
 

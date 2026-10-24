@@ -11,7 +11,3 @@ description = "The airframe, engines and wake turbulence category of aircraft ty
 repository = "https://github.com/Open-Aviation-Solutions/aircraft-type-descriptions"
 readme = "README.md"
 include = ["/src", "/tests", "/README.md", "/LICENSE"]
-
-[lib]
-name = "aircraft_type_descriptions"
-path = "src/lib.rs"

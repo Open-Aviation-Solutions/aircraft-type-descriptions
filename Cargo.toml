@@ -10,8 +10,32 @@ license = "MPL-2.0"
 description = "The airframe, engines and wake turbulence category of aircraft types, by type designator, each row citing its sources."
 repository = "https://github.com/Open-Aviation-Solutions/aircraft-type-descriptions"
 readme = "README.md"
-include = ["/src", "/tests", "/README.md", "/LICENSE"]
+include = [
+    "/src",
+    "/tests",
+    "/build.rs",
+    "/aircraft-type-descriptions.toml",
+    "/aircraft-type-descriptions.schema.json",
+    "/README.md",
+    "/LICENSE",
+]
 
 [lib]
 name = "aircraft_type_descriptions"
 path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+
+# The data file is parsed by build.rs, when the crate is built, so no TOML
+# parser is in the crate itself, or in anything built from it.
+[build-dependencies]
+serde = { version = "1", features = ["derive"] }
+toml = "1"
+
+[dev-dependencies]
+# For the test that the data file fits its schema.
+jsonschema = { version = "0.60", default-features = false }
+serde_json = "1"
+toml = "1"
+rstest = "0.28"

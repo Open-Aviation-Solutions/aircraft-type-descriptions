@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aircraft type descriptions",
+  "description": "What is true of an aircraft type wherever it flies, by type designator, each row citing its sources. Licensed under the Mozilla Public License 2.0 (https://mozilla.org/MPL/2.0/). What a schema cannot say (that every source a row names is listed under `sources`, and that `checked-against` and `source-notes` name only the row's own sources) is checked when the crate is built.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema-version", "sources", "designators"],
+  "properties": {
+    "schema-version": {
+      "description": "The version of this schema the file is written for. A reader refuses a version it does not know.",
+      "const": 1
+    },
+    "sources": {
+      "description": "Each source once, by an id the rows name it by.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/source-id" },
+      "additionalProperties": { "$ref": "#/$defs/source" }
+    },
+    "designators": {
+      "description": "The rows, keyed by type designator.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/designator" },
+      "additionalProperties": { "$ref": "#/$defs/row" }
+    },
+    "not-to-be-used": {
+      "description": "Strings known not to be current designators, each with what replaces it.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/designator" },
+      "additionalProperties": { "$ref": "#/$defs/not-to-be-used" }
+    }
+  },
+  "$defs": {
+    "designator": {
+      "description": "A type designator: not more than four characters (SKYbrary, Aircraft Type Designator), written here in capitals.",
+      "type": "string",
+      "pattern": "^[A-Z0-9]{1,4}$"
+    },
+    "source-id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "kind"],
+      "properties": {
+        "title": { "$ref": "#/$defs/text" },
+        "kind": {
+          "description": "What sort of source it is. A row is confirmed only when it has been checked against a type certificate data sheet.",
+          "enum": [
+            "type-certificate-data-sheet",
+            "type-certificate",
+            "manufacturer-information",
+            "reference-article"
+          ]
+        },
+        "revision": {
+          "description": "The revision or issue, and its date, as the source gives them. Left out when not yet checked.",
+          "$ref": "#/$defs/text"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "notes": {
+          "description": "What is true of the source for every row that names it.",
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["models", "airframe", "engines", "engine-type", "sources"],
+      "properties": {
+        "models": {
+          "description": "The manufacturer and models the designator covers.",
+          "$ref": "#/$defs/text"
+        },
+        "airframe": {
+          "description": "The kind of airframe. `glider` and `airship` are additions to the letters of an aircraft description, so that a glider and an airship can be told apart.",
+          "enum": [
+            "landplane",
+            "seaplane",
+            "amphibian",
+            "helicopter",
+            "gyrocopter",
+            "tiltrotor",
+            "glider",
+            "airship"
+          ]
+        },
+        "engines": {
+          "description": "The number of engines.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "engine-type": {
+          "description": "The kind of engine: `turboprop` covers a turboshaft too; `none` is for a type with no engine.",
+          "enum": ["piston", "turboprop", "jet", "none"]
+        },
+        "wake-turbulence-category": {
+          "description": "ICAO's wake turbulence category. Left out until it has been compiled for the row.",
+          "enum": ["light", "medium", "heavy", "super"]
+        },
+        "sources": {
+          "description": "The ids of the sources the row's facts come from.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source-id" }
+        },
+        "checked-against": {
+          "description": "The ids of the row's sources someone has read for this row. A type certificate data sheet here makes the row confirmed.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source-id" }
+        },
+        "notes": {
+          "description": "What the row covers and what is left to check.",
+          "$ref": "#/$defs/text"
+        },
+        "source-notes": {
+          "description": "A note about one of the row's sources, by its id.",
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "$ref": "#/$defs/source-id" },
+          "additionalProperties": { "$ref": "#/$defs/text" }
+        }
+      },
+      "if": {
+        "properties": { "engine-type": { "const": "none" } }
+      },
+      "then": {
+        "properties": { "engines": { "const": 0 } }
+      },
+      "else": {
+        "properties": { "engines": { "minimum": 1 } }
+      }
+    },
+    "not-to-be-used": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["replaced-by", "notes"],
+      "properties": {
+        "replaced-by": {
+          "description": "The designators to use instead.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/designator" }
+        },
+        "notes": {
+          "description": "Why it is not to be used, and how to choose what replaces it.",
+          "$ref": "#/$defs/text"
+        }
+      }
+    }
+  }
+}

@@ -15,9 +15,65 @@ this crate.
 
 ## Status
 
-Being set up. The table, its schema and the crate's types move here from
-au-casa ([au-casa#7](https://github.com/Open-Aviation-Solutions/au-casa/issues/7));
-until they do, the crate is empty.
+Early: the version is `0.1.0`. Until `1.0`, the API may change between any two
+versions, patch releases included, so pin the version exactly.
+
+What is covered:
+
+- **The table** (`aircraft-type-descriptions.toml`): a small table of
+  designators that grows as types are needed, moved from au-casa. Each row
+  gives the models the designator covers, its kind of airframe, the number and
+  kind of its engines, the sources those facts come from, and notes on what is
+  left to check. A row is `confirmed` when someone has read a type certificate
+  data sheet for it, and `provisional` otherwise.
+- **Designators not to be used**, such as `PA28`, each with what replaces it.
+- **The crate** (`DesignatorTable::packaged()`, `lookup`): the table, built
+  from the file when the crate is built, so no TOML is parsed when it runs.
+- **The schema** (`aircraft-type-descriptions.schema.json`), which CI checks
+  the file against, so a mistyped value is caught here and not by a consumer.
+
+Known not to be done yet:
+
+- No row has its wake turbulence category yet: the field is there, and is
+  filled in as each row's maximum take-off mass is read from its sources.
+- Most designators are not in the table, `C700` among them
+  ([au-casa#7](https://github.com/Open-Aviation-Solutions/au-casa/issues/7)).
+
+## Where the facts come from
+
+The type designators are used as keys, as an airport's code is. Each row's
+facts come from the sources it names, which are listed once in the file. No
+list, table or description code of ICAO Doc 8643 is copied here, and Doc 8643
+is not used as a source, or to check a row. The rows moved from au-casa were
+compiled before that rule: some of their designator-to-model identifications
+had been checked against Doc 8643's published entries there (its tasks `0003`
+and `0004`). Their facts rest on the sources they cite.
+
+It is not a type certificate, and nothing in it replaces one. A
+`provisional` row has not been checked against a type certificate data sheet.
+
+## Usage
+
+```rust
+use aircraft_type_descriptions::{AirframeKind, Confidence, DesignatorTable};
+
+let table = DesignatorTable::packaged();
+let c172 = table.lookup("C172").expect("in the table");
+assert_eq!(c172.description.airframe, AirframeKind::LandPlane);
+assert_eq!(c172.confidence, Confidence::Confirmed);
+
+// Not a current designator: the table says what replaces it.
+assert!(table.lookup("PA28").is_none());
+assert!(table.not_to_be_used("PA28").unwrap().replaced_by.contains(&"P28A"));
+```
+
+## Adding a designator
+
+Add a row under `[designators]` in `aircraft-type-descriptions.toml`, and its
+sources under `[sources]` if they are not there yet. Name a source in
+`checked-against` only once you have read it for the row. `make check` checks
+the file against the schema, and the build checks that the sources a row
+names are listed.
 
 ## Reporting a problem, and contributing
 
@@ -35,7 +91,7 @@ Requires a Rust toolchain, a C linker (`build-essential` on Debian/Ubuntu) and
 make help       # list targets
 make dev        # build
 make test       # run the test suite
-make check      # clippy, format check, licence headers, tests
+make check      # clippy, format check, licence headers, schema, tests
 ```
 
 See `INSTRUCTIONS.md` for working conventions.

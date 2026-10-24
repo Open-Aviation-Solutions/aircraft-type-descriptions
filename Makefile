@@ -18,7 +18,7 @@ ADDLICENSE_SHA256_macOS_arm64 := 0597305c619f7349748e830e38322dbe7d13cf86cf415b2
 ADDLICENSE_SHA256 := $(ADDLICENSE_SHA256_$(ADDLICENSE_PLATFORM))
 SHA256SUM := $(if $(shell command -v sha256sum),sha256sum,shasum -a 256)
 
-.PHONY: help dev build test lint fmt fmt-check license-add license-check check
+.PHONY: help dev build test schema-check lint fmt fmt-check license-add license-check check
 
 help: ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -31,6 +31,11 @@ build: ## Compile the crate
 
 test: ## Run the test suite
 	cargo test
+
+# The data file's cross-references (each source a row names is listed, and so
+# on) are checked by build.rs, so every target that builds the crate checks them.
+schema-check: ## Check that the data file fits its schema
+	cargo test --test schema
 
 lint: ## Lint with clippy, treating warnings as errors
 	cargo clippy --all-targets -- -D warnings
@@ -60,4 +65,4 @@ license-add: $(ADDLICENSE) ## Add the MPL notice to each tracked source file tha
 license-check: $(ADDLICENSE) ## Check that each source file carries a licence header
 	git ls-files -z | xargs -0 $(ADDLICENSE) -check -l mpl
 
-check: lint fmt-check license-check test ## Run all checks: lint, format check, licence headers, tests
+check: lint fmt-check license-check schema-check test ## Run all checks: lint, format check, licence headers, schema, tests

@@ -20,10 +20,21 @@ use serde::Deserialize;
 const DATA_FILE: &str = "aircraft-type-descriptions.toml";
 const SCHEMA_VERSION: u32 = 1;
 
+/// The schema version alone, read before anything else so that a file for a
+/// newer schema is refused as that, not for a field or value this crate does
+/// not know.
+#[derive(Deserialize)]
+#[serde(rename_all = "kebab-case")]
+struct Version {
+    schema_version: u32,
+}
+
 #[derive(Deserialize)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct File {
-    schema_version: u32,
+    /// Already read, and refused if it is not ours, by [`Version`].
+    #[serde(rename = "schema-version")]
+    _schema_version: u32,
     sources: BTreeMap<String, Source>,
     designators: BTreeMap<String, Row>,
     #[serde(default)]
@@ -108,6 +119,13 @@ fn main() {
     println!("cargo::rerun-if-changed=build.rs");
 
     let text = fs::read_to_string(DATA_FILE).unwrap_or_else(|e| fail(&format!("{e}")));
+    let version: Version = toml::from_str(&text).unwrap_or_else(|e| fail(&format!("{e}")));
+    if version.schema_version != SCHEMA_VERSION {
+        fail(&format!(
+            "schema-version {} is not {SCHEMA_VERSION}, the one this version of the crate reads",
+            version.schema_version
+        ));
+    }
     let file: File = toml::from_str(&text).unwrap_or_else(|e| fail(&format!("{e}")));
 
     let errors = check(&file);
@@ -127,12 +145,6 @@ fn fail(message: &str) -> ! {
 /// What the schema cannot say, each broken rule as one line.
 fn check(file: &File) -> Vec<String> {
     let mut errors = Vec::new();
-    if file.schema_version != SCHEMA_VERSION {
-        errors.push(format!(
-            "schema-version {} is not {SCHEMA_VERSION}, the one this crate reads",
-            file.schema_version
-        ));
-    }
     for (designator, row) in &file.designators {
         for id in &row.sources {
             if !file.sources.contains_key(id) {
@@ -229,6 +241,9 @@ fn generate(file: &File) -> String {
                     .flatten()
                     .map(|note| note.trim())
                     .collect();
+                if let Some(url) = &source.url {
+                    write!(cited, ", {url}").unwrap();
+                }
                 if !notes.is_empty() {
                     write!(cited, " — {}", notes.join(" ")).unwrap();
                 }

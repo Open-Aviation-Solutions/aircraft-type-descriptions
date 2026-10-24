@@ -27,7 +27,7 @@ as au-casa for CASA's Part 61.
   of a source for every row goes on the source.
 - `aircraft-type-descriptions.schema.json` (JSON Schema, draft 2020-12) says
   what each field holds; `make schema-check`, part of `make check`, checks the
-  file against it. What a schema cannot say (each source a row names is
+  file against it (`make test`, and so `make check`, runs it too). What a schema cannot say (each source a row names is
   listed; `checked-against` and `source-notes` name only the row's own
   sources; `schema-version` is the one the crate reads) is checked by
   `build.rs`, so a file that breaks it does not build.
@@ -41,16 +41,16 @@ as au-casa for CASA's Part 61.
   `checked-against` only when someone has read it for that row.
 - **ICAO Doc 8643 is not used or cited**: not as a source, and not to check
   or flag a row (au-casa#7, au-casa#10). No list, table or description code of
-  it is copied here. `GLID` cites SKYbrary's article on type designators, by
-  as decided on au-casa#7; that is an exception for that row.
+  it is copied here. `GLID` cites SKYbrary's article on type designators, as
+  decided on au-casa#7; that is an exception for that row.
 - The table is a value (`DesignatorTable::packaged()`), not a global, so that
   a table from elsewhere can be added later without changing what a caller of
   `lookup` sees. Keep `lookup` returning `None` for a designator it does not
   have, rather than guessing.
-- **Layer A is narrowed in two places, both documented** in
-  `src/description.rs`: `AirframeKind` carries `Glider` and `Airship`, which
-  are not among an aircraft description's letters, and
-  `EngineType::is_gas_turbine` is there for a Part 61 design feature. Do not
+- **Layer A has two things in it for Part 61, both documented** in
+  `src/description.rs`: `AirframeKind` carries `Glider` and `Airship` as kinds
+  of airframe of their own, and `EngineType::is_gas_turbine` is there for a
+  Part 61 design feature. Do not
   narrow the types to suit one country without saying so there, since a
   consumer cannot see what is missing.
 

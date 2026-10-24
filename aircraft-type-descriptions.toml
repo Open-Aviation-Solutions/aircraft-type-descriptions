@@ -61,9 +61,10 @@ kind = "manufacturer-information"
 notes = "Pending verification against an FAA or EASA type certificate data sheet."
 
 # The candidate sources below were identified by public search rather than by
-# opening the document (au-casa tasks 0003 and 0004). Each names the right
-# certificate, but not yet a checked revision or date, so every row citing one
-# stays provisional until someone reads the actual sheet.
+# opening the document (au-casa tasks 0003 and 0004). None has been read, and
+# each says in its notes what is still to find (a revision, a sheet's number,
+# or the data sheet itself), so every row citing one stays provisional until
+# someone reads the actual sheet.
 
 [sources.faa-3A19]
 title = "FAA Type Certificate Data Sheet 3A19 (Cessna 150/152)"
@@ -305,8 +306,10 @@ engine-type = "piston"
 sources = ["easa-A025"]
 notes = """
 The self-launching variant, not the plain Duo Discus, for the same reason as \
-AS21, fitted with a Solo 2350D sustainer engine. Provisional because the \
-data sheet it cites has not been read.
+AS21, fitted with a Solo 2350D sustainer engine. Neither the identification \
+of this designator with the Duo Discus T nor the facts are sourced yet: no \
+source for the identification is named, and the data sheet cited has not \
+been read.
 """
 
 [designators.DUOD.source-notes]
@@ -346,6 +349,12 @@ rather than it being filed as the generic GLID, is unconfirmed: it may \
 belong under GLID rather than in a row of its own. Kept as its own row \
 because it is the designator a pilot's logbook uses for it; revisit when a \
 source settles it either way.
+"""
+
+[designators.LS4.source-notes]
+lba-345 = """
+Whether LS4 is even a designator of its own for this type, rather than the \
+generic GLID, is also unconfirmed: see the LS4 and GLID rows' notes.
 """
 
 [designators.BL8]

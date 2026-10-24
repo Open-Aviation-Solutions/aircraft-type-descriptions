@@ -82,7 +82,7 @@
           "$ref": "#/$defs/text"
         },
         "airframe": {
-          "description": "The kind of airframe. `glider` and `airship` are additions to the letters of an aircraft description, so that a glider and an airship can be told apart.",
+          "description": "The kind of airframe. `glider` and `airship` are kinds of airframe of their own, so that a glider and an airship can be told apart from the rest.",
           "enum": [
             "landplane",
             "seaplane",

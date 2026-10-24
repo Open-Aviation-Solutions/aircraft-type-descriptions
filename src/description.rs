@@ -12,52 +12,51 @@
 //!   ([`WakeTurbulenceCategory`]). au-casa had left it out because no Part 61
 //!   rule uses it, which would make a shared table quietly incomplete. It is
 //!   optional, since no row has had it compiled yet.
-//! - [`AirframeKind`] carries `Glider` and `Airship`, which are not among the
-//!   letters of an aircraft description, so that a glider and an airship can
-//!   be told apart from other airframes.
+//! - [`AirframeKind`] carries `Glider` and `Airship` as kinds of airframe of
+//!   their own, so that a glider and an airship can be told apart from other
+//!   airframes.
 //! - [`EngineType::is_gas_turbine`] says which kinds of engine are gas
 //!   turbines; it is there because Part 61's design features (reg 61.755) ask.
 
 use serde::{Deserialize, Serialize};
 
-/// What sort of airframe a type is: the first letter of an aircraft
-/// description.
+/// What sort of airframe a type is.
 ///
-/// `Glider` and `Airship` are not among those letters. They are carried so
-/// that a glider and an airship can be described at all: CASA's Part 61, for
+/// `Glider` and `Airship` are kinds of airframe beyond the landplane,
+/// seaplane, amphibian, helicopter, gyrocopter and tiltrotor, carried so that
+/// a glider and an airship can be described at all: CASA's Part 61, for
 /// one, needs to reach the airship category (reg 61.015(e)) and registered
 /// sailplanes (reg 61.007(2)).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum AirframeKind {
-    /// `L`: landplane.
+    /// A landplane.
     LandPlane,
-    /// `S`: seaplane.
+    /// A seaplane.
     SeaPlane,
-    /// `A`: amphibian.
+    /// An amphibian.
     Amphibian,
-    /// `H`: helicopter.
+    /// A helicopter.
     Helicopter,
-    /// `G`: gyrocopter.
+    /// A gyrocopter.
     Gyrocopter,
-    /// `T`: tiltrotor.
+    /// A tiltrotor.
     TiltRotor,
-    /// Not one of the letters: see the enum's own documentation.
+    /// A glider: see the enum's own documentation.
     Glider,
-    /// Not one of the letters: see the enum's own documentation.
+    /// An airship: see the enum's own documentation.
     Airship,
 }
 
-/// The kind of engine a type has: the third element of an aircraft
-/// description.
+/// The kind of engine a type has.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum EngineType {
-    /// `P`: piston.
+    /// Piston.
     Piston,
-    /// `T`: turboprop or turboshaft.
+    /// Turboprop or turboshaft.
     TurboProp,
-    /// `J`: jet.
+    /// Jet.
     Jet,
     /// No engine: a glider.
     None,

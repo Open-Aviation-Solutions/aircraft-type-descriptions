@@ -83,9 +83,9 @@ pub struct DesignatorFacts {
     pub sources: &'static [CitedSource],
     /// What the row covers and what is left to check.
     pub notes: Option<&'static str>,
-    /// The row's sources as one line of text: for each source, its title and
-    /// revision, then after ` — ` its notes and the row's note about it;
-    /// sources are separated by `; `.
+    /// The row's sources as one line of text: for each source, its title,
+    /// revision and URL, then after ` — ` its notes and the row's note about
+    /// it; sources are separated by `; `.
     pub citation: &'static str,
 }
 

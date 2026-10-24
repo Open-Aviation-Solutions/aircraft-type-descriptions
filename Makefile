@@ -65,4 +65,5 @@ license-add: $(ADDLICENSE) ## Add the MPL notice to each tracked source file tha
 license-check: $(ADDLICENSE) ## Check that each source file carries a licence header
 	git ls-files -z | xargs -0 $(ADDLICENSE) -check -l mpl
 
-check: lint fmt-check license-check schema-check test ## Run all checks: lint, format check, licence headers, schema, tests
+# test runs the schema check too (tests/schema.rs), so check does not name it.
+check: lint fmt-check license-check test ## Run all checks: lint, format check, licence headers, tests (with the schema check)

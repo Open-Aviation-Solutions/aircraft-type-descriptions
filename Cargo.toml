@@ -20,10 +20,6 @@ include = [
     "/LICENSE",
 ]
 
-[lib]
-name = "aircraft_type_descriptions"
-path = "src/lib.rs"
-
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 

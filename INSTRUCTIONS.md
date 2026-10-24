@@ -58,15 +58,17 @@ as au-casa for CASA's Part 61.
 
 - **Discuss before implementing**: a design decision is discussed in an issue
   first, and the issue records what was decided.
-- **The MPL notice heads each file** in `src/`, `tests/`, `build.rs`, the
-  data file, the `Makefile`, `Cargo.toml` and `.github/workflows/` (the
-  licence's Exhibit A, in that file's comment syntax; JSON has none, so the
-  schema says it in its `description`); `make license-add` adds it to each tracked file
-  that has none (so `git add` a new file first). `make license-check`, part
-  of `make check`, runs `addlicense -check` over the tracked files, which
-  fails on a Rust, TOML or YAML file with no licence header, though it does
-  not check that the header is the MPL's wording. Neither covers the
-  `Makefile`, which addlicense does not recognise.
+- **The MPL notice heads each file** in `src/`, `tests/`, `build.rs`, the data
+  file, the `Makefile`, `Cargo.toml` and `.github/workflows/` (the licence's
+  Exhibit A, in that file's comment syntax; JSON has none, so the schema says
+  it in its `description`); `make license-add` adds it to each tracked file
+  that has none (so `git add` a new file first). `make license-check`, part of
+  `make check`, runs `addlicense -check` over the tracked files, which fails
+  on a Rust, TOML or YAML file with no licence header, though it does not
+  check that the header is the MPL's wording. Neither covers the `Makefile`,
+  which addlicense does not recognise. It sees only tracked files, so a new
+  file not yet added passes locally and fails in CI; and it passes a tracked
+  file it cannot read (deleted but not staged, say).
 
 ## Commands
 

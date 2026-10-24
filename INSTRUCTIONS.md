@@ -25,6 +25,16 @@ as au-casa for CASA's Part 61.
   `[not-to-be-used]`. Prose about a row goes in its `notes`; a note about one
   of its sources goes in `source-notes`, keyed by the source's id; a note true
   of a source for every row goes on the source.
+- **One file, until rows conflict.** While the table is small, one file reads
+  best, and a new row and its new source are one edit. When pull requests that
+  add rows start to conflict, split it as one file per designator
+  (`designators/C172.toml`) plus `sources.toml`, so that each new row is a new
+  file. Do not split by airframe, engine type or any national category: those
+  are facts in a row, not its identity, so correcting one would move the row
+  between files. The layout is internal: `build.rs` reads it, and a consumer
+  sees only the crate (or, later, the compiled JSON), so splitting changes
+  nothing for them. `schema-version` then needs a home of its own
+  (`sources.toml`, or a small manifest).
 - `aircraft-type-descriptions.schema.json` (JSON Schema, draft 2020-12) says
   what each field holds; `make schema-check`, part of `make check`, checks the
   file against it (`make test`, and so `make check`, runs it too). What a schema cannot say (each source a row names is

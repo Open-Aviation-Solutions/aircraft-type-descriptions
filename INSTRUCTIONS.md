@@ -76,17 +76,51 @@ as au-casa for CASA's Part 61.
   narrow the types to suit one country without saying so there, since a
   consumer cannot see what is missing.
 
+## Compiling a batch (temporary)
+
+**Temporary, with `tools/compile-batches/`**: this section goes when the
+table's input is compiled and the tooling is removed (its README says how).
+
+A batch of rows (#9) starts from `make candidates N=50`, which prints the next
+designators by number of aircraft on CASA's register, with what FAA Order JO
+7360.1 and the register give for each, and the edition, date and SHA-256 of
+the files it read, for the pull request to cite. The tooling is Python,
+standard library only, plus `pdftotext`, run with `python3 -I`; it is not in
+the crate's `include` list, and nothing in the crate, `build.rs` or `make
+check` depends on it. Its parser's test is `make candidates-test`. What the
+first batch (#6) learnt:
+
+- **JO 7360.1 never supplies a glider's airframe.** It files a self-launching
+  glider as fixed-wing, with its engine, so its class does not tell a glider
+  from an aeroplane: take a glider's airframe from a data sheet or the
+  register. `make candidates` flags a designator the register files gliders
+  under.
+- **Its engine type `T` is "Turboprop/Turboshaft"**, which is `turboprop`
+  here (the schema's `turboprop` covers a turboshaft).
+- **Light/Medium means the category is left out**, and the row's notes say
+  why: the designator's variants fall in more than one category.
+- **Turbine conversions have designators of their own** (`B47T`, `H12T`,
+  `C06T`), so where the register lists turbine aircraft under a piston
+  designator, the row's notes point at the conversion's designator rather
+  than describe them.
+- **The register is cited only where every aircraft under the designator
+  agrees** with the row's number and kind of engines; where even one differs,
+  the row does not cite it, and its notes say so.
+- **EASA data sheets are paraphrased, never quoted**: they are marked "All
+  rights reserved".
+
 ## Conventions
 
 - **Discuss before implementing**: a design decision is discussed in an issue
   first, and the issue records what was decided.
 - **The MPL notice heads each file** in `src/`, `tests/`, `build.rs`, the data
-  file, the `Makefile`, `Cargo.toml` and `.github/workflows/` (the licence's
+  file, the `Makefile`, `Cargo.toml`, `.github/workflows/` and the temporary
+  `tools/compile-batches/` (the licence's
   Exhibit A, in that file's comment syntax; JSON has none, so the schema says
   it in its `description`); `make license-add` adds it to each tracked file
   that has none (so `git add` a new file first). `make license-check`, part of
   `make check`, runs `addlicense -check` over the tracked files, which fails
-  on a Rust, TOML or YAML file with no licence header, though it does not
+  on a Rust, TOML, YAML, Python or HTML file with no licence header, though it does not
   check that the header is the MPL's wording. Neither covers the `Makefile`,
   which addlicense does not recognise. It sees only tracked files, so a new
   file not yet added passes locally and fails in CI; and it passes a tracked
@@ -103,4 +137,8 @@ make fmt            # cargo fmt
 make license-add    # add the MPL notice where a tracked file has none
 make license-check  # addlicense -check over the tracked files
 make check          # lint + fmt check + licence headers + schema + test
+
+# Temporary, with tools/compile-batches/ (see "Compiling a batch")
+make candidates N=50  # the next 50 designators to compile (REGISTER=file, REFRESH=1)
+make candidates-test  # the test of its parser of JO 7360.1's Appendix A
 ```

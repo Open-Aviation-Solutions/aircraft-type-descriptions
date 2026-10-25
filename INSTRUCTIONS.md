@@ -115,6 +115,21 @@ first batch (#6) learnt:
 - **EASA data sheets are paraphrased, never quoted**: they are marked "All
   rights reserved".
 
+What the second batch (#9, pull request #12) added:
+
+- **One register source, pinned to the latest file read.** A batch that reads
+  a newer `acrftreg.csv` checks every row already citing
+  `casa-aircraft-register` against it, then moves the source's revision and
+  its comment (date, size, SHA-256) to that file, rather than adding a second
+  register source; a row that no longer agrees stops citing it (agreed by the
+  owner on #12).
+- **The register's "Turbofan" and "Turbojet" are `jet`**, as `make
+  candidates` maps them, so they agree with a `jet` row (`LJ35`).
+- **A glider's data sheet confirms its airframe by its certification basis.**
+  A self-launching glider's sheet may describe it as a low-wing aeroplane, but
+  airworthiness requirements of JAR-22, the code for sailplanes and powered
+  sailplanes, confirm it is a glider (the owner's ruling on #12, for `DIMO`).
+
 ## Conventions
 
 - **Discuss before implementing**: a design decision is discussed in an issue

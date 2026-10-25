@@ -154,9 +154,30 @@ file, the schema or the crate, update `Cargo.lock` to match
 (`cargo update --workspace`; `make check` runs cargo with `--locked`, so a
 stale one fails), and merge it: that is the release. Until `1.0`:
 
-- a **patch** for rows and sources added or corrected;
+- a **patch** for a row added for a designator not yet in the table, and for
+  sources, models, notes and citations added or corrected, so long as every
+  row already in the table keeps its description and confidence;
 - a **minor** version for a change to the API, to the data file's schema, or
-  to how confidence is derived.
+  to how confidence is derived, and for a row change that could alter a
+  classification: a correction to a row's description (its airframe, number
+  or kind of engines, or wake turbulence category) or to its confidence, or a
+  row removed or moved to `[not-to-be-used]`.
+
+**Why a data change can be a minor release** (decided on
+[au-casa#24](https://github.com/Open-Aviation-Solutions/au-casa/issues/24)):
+this crate is the vocabulary for aircraft facts shared by the country crates
+(au-casa, and siblings such as one for New Zealand), and each reads a row's
+description and confidence into its own licensing classification. So the
+country crates take it by a caret range (`^0.1`), which lets Cargo build one
+copy of it for a consumer that has several, rather than pinning a version
+exactly. Under 0.x a caret range takes up patches but not a minor version, so
+a patch must not change a classification any of them derives: the
+description and confidence `lookup` gave a designator before a patch, it
+gives after. The table
+cannot know which facts each country reads, so any change to a description
+or confidence counts. A minor release is taken by the country crates
+together, each moving its range and checking its classifications in a pull
+request of its own.
 
 On each push to `main`, the Release workflow (`.github/workflows/release.yml`)
 asks crates.io whether `Cargo.toml`'s version is there yet. When it is not,

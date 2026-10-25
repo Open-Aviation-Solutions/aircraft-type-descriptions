@@ -110,9 +110,13 @@ def _parse_page(words, number: int) -> list[Designator]:
     header_bottom = max(
         w[3] for w in words if w[4] in _HEADER_WORDS and w[1] < manufacturer[0][3] + 25
     )
-    footer = [w[1] for w in words if w[1] > 700 and re.match(r"^A-\d+$", w[4])]
-    body_bottom = (min(footer) if footer else 792) - 3
-    body = [w for w in words if header_bottom < w[1] < body_bottom]
+    # The page number (A-1 and so on) is alone on the page's bottom line;
+    # model words such as A-109 have the same form, so only that line counts.
+    bottom = max(w[1] for w in words)
+    footer = [w for w in words if w[1] > bottom - _SAME_LINE]
+    if len(footer) != 1 or not re.match(r"^A-\d+$", footer[0][4]):
+        raise ParseError(f"page {number}: no page number alone on its bottom line")
+    body = [w for w in words if header_bottom < w[1] < bottom - _SAME_LINE]
 
     rows = []
     for line in _lines([w for w in body if w[2] < models_x]):
@@ -138,6 +142,12 @@ def _parse_page(words, number: int) -> list[Designator]:
             taken += 1
         if not designator.models:
             raise ParseError(f"page {number}: {designator.designator} has no models")
+        first, last = model_lines[taken - len(designator.models)][0], model_lines[taken - 1][0]
+        if abs((first + last) / 2 - centre) > _SAME_LINE:
+            raise ParseError(
+                f"page {number}: the models taken for {designator.designator} "
+                f"({designator.models[0]!r} to {designator.models[-1]!r}) are not centred on it"
+            )
     if taken != len(model_lines):
         raise ParseError(
             f"page {number}: model line {model_lines[taken][1]!r} is below the last row"

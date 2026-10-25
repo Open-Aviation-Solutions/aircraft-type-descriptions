@@ -56,11 +56,13 @@ REGISTER_PAGE = (
 REGISTER_FILE = os.path.join(CACHE, "acrftreg.csv")
 
 # The register's Engtype, as the order's engine type letter (paragraph 2-10a).
-# A diesel is a piston engine and a turboshaft a turboprop, as in the table.
-# "Rotary" (a Wankel) and "Not Applicable" have none, so never agree.
+# A diesel is a piston engine, and so is "Rotary" (a Wankel, such as the
+# Austro AE50R), as the owner ruled on #11; a turboshaft is a turboprop, as in
+# the table. "Not Applicable" has none, so never agrees.
 REGISTER_ENGINE = {
     "Piston": "P",
     "Diesel Engine": "P",
+    "Rotary": "P",
     "Turboprop": "T",
     "Turboshaft": "T",
     "Turbofan": "J",
@@ -160,24 +162,39 @@ def fetch_order() -> dict:
     )
 
 
+BY_HAND = (
+    "CASA's server refuses scripted downloads, so the register is normally "
+    f"downloaded in a browser: get acrftreg.csv from {REGISTER_PAGE}, and give it "
+    "with `make candidates REGISTER=path/to/acrftreg.csv REGISTER_DATE='<the "
+    "date CASA gives for the file>'`."
+)
+
+
 def fetch_register() -> dict:
     try:
         data, headers = fetch(REGISTER_URL)
     except Failure as e:
-        raise Failure(
-            f"{e}.\nCASA's server refuses some scripted downloads. Download "
-            f"acrftreg.csv in a browser, from {REGISTER_PAGE}, and give it with "
-            "`make candidates REGISTER=path/to/acrftreg.csv`."
-        ) from e
+        raise Failure(f"{e}.\n{BY_HAND}") from e
     if not data.lstrip(b"\xef\xbb\xbf").startswith(b"Mark,"):
-        raise Failure(f"{REGISTER_URL} did not give the register's CSV file")
+        raise Failure(f"{REGISTER_URL} did not give the register's CSV file (a challenge page?).\n{BY_HAND}")
     with open(REGISTER_FILE, "wb") as f:
         f.write(data)
-    return record(REGISTER_FILE, REGISTER_URL, retrieved=now(), last_modified=headers.get("Last-Modified"))
+    return record(
+        REGISTER_FILE,
+        REGISTER_URL,
+        retrieved=now(),
+        last_modified=headers.get("Last-Modified"),
+    )
 
 
-def take_register(path: str) -> dict:
-    """Takes a register file downloaded by hand into the cache."""
+def take_register(path: str, date: str | None) -> dict:
+    """Takes a register file downloaded by hand into the cache.
+
+    Its file time is when it was downloaded, not the file's edition, which
+    only CASA's page (or the browser's download) gives: `date`, if given.
+    """
+    if not os.path.isfile(path):
+        raise Failure(f"no register file at {path}")
     read_register(path)  # refuse anything but the register before taking it
     modified = datetime.datetime.fromtimestamp(os.path.getmtime(path), datetime.UTC)
     if os.path.abspath(path) != os.path.abspath(REGISTER_FILE):
@@ -185,8 +202,8 @@ def take_register(path: str) -> dict:
     return record(
         REGISTER_FILE,
         REGISTER_URL,
-        retrieved=f"by hand (the file given was last changed {modified:%Y-%m-%d %H:%M UTC})",
-        last_modified=None,
+        retrieved=f"by hand, downloaded (file time) {modified:%Y-%m-%d %H:%M UTC}",
+        last_modified=date,
     )
 
 
@@ -208,6 +225,8 @@ def read_order(path: str):
         ).stdout
     except FileNotFoundError as e:
         raise Failure("pdftotext is not installed (it is in poppler-utils)") from e
+    except subprocess.CalledProcessError as e:
+        raise Failure(f"pdftotext failed on {path}: {e.stderr.strip()}") from e
     return {d.designator: d for d in appendix_a.parse(bbox)}
 
 
@@ -276,11 +295,15 @@ def print_sources(order: dict, register: dict, rows: int, designators: int) -> N
     print(f"  SHA-256 {order['sha256']}")
     for n in order["notices"]:
         print(f"  notice listed with it: {n['number']}, {n['title']} (effective {n['effective']}, cancelled {n['cancelled'] or '-'})")
+    if order["notices"]:
+        print("  ! A notice may add or change designators, and is not applied here: check it against the rows.")
     print("CASA, Australian civil aircraft register data file (acrftreg.csv)")
     print(f"  {register['url']}")
+    edition = register["last_modified"] or "not known: take it from CASA's page, and give it as REGISTER_DATE="
+    print(f"  edition (last modified) {edition}")
     print(
-        f"  retrieved {register['retrieved']}; last modified {register['last_modified'] or 'not known'}; "
-        f"{register['bytes']:,} bytes; {rows:,} aircraft under {designators:,} designators"
+        f"  retrieved {register['retrieved']}; {register['bytes']:,} bytes; "
+        f"{rows:,} aircraft under {designators:,} designators"
     )
     print(f"  SHA-256 {register['sha256']}")
 
@@ -289,6 +312,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("-n", type=int, default=50, help="how many candidates to print (default 50)")
     parser.add_argument("--register", help="a copy of acrftreg.csv downloaded by hand, to use from now on")
+    parser.add_argument("--register-date", help="the date CASA gives for the file given with --register")
     parser.add_argument("--refresh", action="store_true", help="download both files again")
     parser.add_argument("--table", default=TABLE, help="the data file whose rows are left out")
     args = parser.parse_args(argv)
@@ -299,7 +323,7 @@ def main(argv=None) -> int:
         manifest["order"] = fetch_order()
         save_manifest(manifest)
     if args.register:
-        manifest["register"] = take_register(args.register)
+        manifest["register"] = take_register(args.register, args.register_date)
         save_manifest(manifest)
     elif args.refresh or "register" not in manifest or not os.path.exists(REGISTER_FILE):
         manifest["register"] = fetch_register()
@@ -322,6 +346,11 @@ def main(argv=None) -> int:
         print("\n".join(describe(rank, designator, entry, aircraft)))
     print()
     print(f"{len(found) - len(shown)} candidates left after these.")
+    missing = sorted(((d, len(a)) for d, a in register.items() if d not in order), key=lambda m: (-m[1], m[0]))
+    if missing:
+        print()
+        print(f"{len(missing)} designators on the register are not in the order, so are not candidates:")
+        print("  " + ", ".join(f"{d or '(blank)'} ({n})" for d, n in missing))
     return 0
 
 

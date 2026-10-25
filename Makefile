@@ -60,8 +60,9 @@ $(ADDLICENSE):
 license-add: $(ADDLICENSE) ## Add the MPL notice to each tracked source file that has none
 	git ls-files -z | xargs -0 $(ADDLICENSE) -l mpl
 
-# addlicense checks the tracked files of the types it knows (Rust, TOML, YAML)
-# for a licence header, and passes over the rest (Cargo.lock, Markdown, LICENSE).
+# addlicense checks the tracked files of the types it knows (Rust, TOML, YAML,
+# Python, HTML) for a licence header, and passes over the rest (Cargo.lock,
+# Markdown, .gitignore, LICENSE).
 # It does not recognise a Makefile, so it does not check this one.
 license-check: $(ADDLICENSE) ## Check that each source file carries a licence header
 	git ls-files -z | xargs -0 $(ADDLICENSE) -check -l mpl
@@ -77,8 +78,8 @@ check: lint fmt-check license-check test ## Run all checks: lint, format check, 
 
 N ?= 50
 
-candidates: ## (Temporary) Print the next N designators to compile (N=50; REGISTER=file, REFRESH=1)
-	python3 -I tools/compile-batches/candidates.py -n $(N)$(if $(REGISTER), --register "$(REGISTER)")$(if $(REFRESH), --refresh)
+candidates: ## (Temporary) Print the next N designators to compile (N=50; REGISTER=file REGISTER_DATE=date, REFRESH=1)
+	python3 -I tools/compile-batches/candidates.py -n $(N)$(if $(REGISTER), --register "$(REGISTER)")$(if $(REGISTER_DATE), --register-date "$(REGISTER_DATE)")$(if $(REFRESH), --refresh)
 
 candidates-test: ## (Temporary) Test the batch tooling's parser of JO 7360.1's Appendix A
 	python3 -I tools/compile-batches/test_appendix_a.py

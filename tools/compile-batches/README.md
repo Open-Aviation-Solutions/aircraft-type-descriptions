@@ -19,6 +19,9 @@ FAA Order JO 7360.1 and CASA's aircraft register say of each:
   category as the table would have them.
 - **The register**: its number of aircraft under the designator, and whether
   every one has the order's number and type of engines, or how many differ.
+  Its "Diesel Engine" and "Rotary" (a Wankel) are piston engines, as in the
+  order and the table (the owner's ruling on #11), and a turboshaft is a
+  turboprop.
 - **Flags** (`!`) for a batch to look at: a category of Light/Medium, the
   register disagreeing on engines, and gliders on the register under a
   designator the order calls fixed-wing.
@@ -34,11 +37,20 @@ later runs use those copies until `make candidates REFRESH=1`. Each file's URL,
 date and SHA-256 are kept in `cache/sources.json` and printed first, so a
 batch can cite exactly what it used.
 
-CASA's server refuses some scripted downloads. If it refuses this one,
-download `acrftreg.csv` in a browser from CASA's
+**The register is downloaded by hand, in practice, every batch.** CASA's
+server refuses scripted downloads (HTTP 403 to Python's urllib and to curl),
+so download `acrftreg.csv` in a browser from CASA's
 [data files page](https://www.casa.gov.au/aircraft/aircraft-registration/data-files-registered-aircraft)
-and give it with `make candidates REGISTER=path/to/acrftreg.csv`; it is
-copied into `cache/` and used from then on.
+and give it with
+`make candidates REGISTER=path/to/acrftreg.csv REGISTER_DATE='<date>'`, the
+date being the one CASA's page (or the browser's download) gives for the
+file. It is copied into `cache/` and used from then on. The file's own time is
+only when it was downloaded, so without `REGISTER_DATE` the output says the
+edition's date is not known and has to come from CASA's page.
+
+The output also lists any notices the FAA's page lists with the order, which
+are not applied: a batch checks each against its rows. And it lists the
+register's designators the order does not have, which are never candidates.
 
 ## What it needs
 

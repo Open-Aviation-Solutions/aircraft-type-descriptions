@@ -84,7 +84,10 @@ table's input is compiled and the tooling is removed (its README says how).
 A batch of rows (#9) starts from `make candidates N=50`, which prints the next
 designators by number of aircraft on CASA's register, with what FAA Order JO
 7360.1 and the register give for each, and the edition, date and SHA-256 of
-the files it read, for the pull request to cite. The tooling is Python,
+the files it read, for the pull request to cite. CASA's server refuses
+scripted downloads, so in practice each batch downloads the register's
+`acrftreg.csv` in a browser and gives it, with the date CASA's page gives for
+it, as `make candidates REGISTER=path REGISTER_DATE=date`. The tooling is Python,
 standard library only, plus `pdftotext`, run with `python3 -I`; it is not in
 the crate's `include` list, and nothing in the crate, `build.rs` or `make
 check` depends on it. Its parser's test is `make candidates-test`. What the
@@ -97,6 +100,9 @@ first batch (#6) learnt:
   under.
 - **Its engine type `T` is "Turboprop/Turboshaft"**, which is `turboprop`
   here (the schema's `turboprop` covers a turboshaft).
+- **The register's "Diesel Engine" and "Rotary" (a Wankel, such as the Austro
+  AE50R) are piston engines**, as the order and the table have them (the
+  owner's ruling on #11), so they agree with a `piston` row.
 - **Light/Medium means the category is left out**, and the row's notes say
   why: the designator's variants fall in more than one category.
 - **Turbine conversions have designators of their own** (`B47T`, `H12T`,
@@ -114,8 +120,8 @@ first batch (#6) learnt:
 - **Discuss before implementing**: a design decision is discussed in an issue
   first, and the issue records what was decided.
 - **The MPL notice heads each file** in `src/`, `tests/`, `build.rs`, the data
-  file, the `Makefile`, `Cargo.toml`, `.github/workflows/` and the temporary
-  `tools/compile-batches/` (the licence's
+  file, the `Makefile`, `Cargo.toml`, `.github/workflows/` and the scripts and
+  fixture of the temporary `tools/compile-batches/` (the licence's
   Exhibit A, in that file's comment syntax; JSON has none, so the schema says
   it in its `description`); `make license-add` adds it to each tracked file
   that has none (so `git add` a new file first). `make license-check`, part of

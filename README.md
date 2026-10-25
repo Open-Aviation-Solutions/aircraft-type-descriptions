@@ -15,16 +15,20 @@ this crate.
 
 ## Status
 
-Early: the version is `0.1.0`. The table has 17 rows, and most of them (11)
-are `provisional`: only 6 have been checked against a type certificate data
-sheet.
+Early (0.x). The table is small, and most of its rows are `provisional`:
+they have not yet been checked against a type certificate data sheet.
 
-Every change to the table is a release: its version is bumped in the pull
-request that makes the change, so merging it publishes it. Until `1.0`:
+A change to the table bumps the version in the pull request that makes it.
+Until `1.0`:
 
-- a **patch** version (`0.1.1`) adds or corrects rows and sources;
-- a **minor** version (`0.2.0`) changes the API, the data file's schema, or
-  how a row's confidence is derived.
+- a **patch** version adds or corrects rows and sources;
+- a **minor** version changes the API, the data file's schema, or how a
+  row's confidence is derived.
+
+The first release, `0.1.0`, is published to crates.io by hand. Until the
+Release workflow lands
+([#5](https://github.com/Open-Aviation-Solutions/aircraft-type-descriptions/issues/5)),
+a version bump merged to `main` is not published by itself.
 
 What is covered:
 
@@ -65,16 +69,17 @@ It is not a type certificate, and nothing in it replaces one. A
 
 ## Usage
 
-Add it from crates.io, pinned exactly, as au-casa does:
+Add it from crates.io:
 
 ```toml
 [dependencies]
-aircraft-type-descriptions = "=0.1.0"
+aircraft-type-descriptions = "0.1"
 ```
 
-Pinned so, a new row reaches you when you move to the version that adds it.
-A requirement of `"0.1"` takes each patch's rows on `cargo update`, and a
-patch does not change the API.
+A patch release adds or corrects rows and does not change the API, so this
+takes each patch's rows on `cargo update`. au-casa pins an exact version
+(`=` in the requirement) instead, so that the facts it classifies by change
+only when it moves to a new version on purpose.
 
 ```rust
 use aircraft_type_descriptions::{AirframeKind, Confidence, DesignatorTable};

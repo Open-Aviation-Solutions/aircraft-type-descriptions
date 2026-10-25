@@ -70,7 +70,9 @@ Civil Aviation Safety Authority, licensed under CC BY 4.0 \
 (https://creativecommons.org/licenses/by/4.0/). Changed: nothing is copied; \
 the row uses counts derived from the file, and names it only where every \
 aircraft registered under the designator has the row's number and kind of \
-engines. CASA replaces the file, so this one cannot be fetched again.
+engines. For a self-launching glider it also gives the airframe ("Glider" or \
+"Motor-Glider"), which FAA Order JO 7360.1 does not. CASA replaces the file, \
+so this one cannot be fetched again.
 """
 
 [sources.easa-A005]
@@ -78,7 +80,6 @@ title = "EASA Type-Certificate Data Sheet EASA.A.005 (Diamond DA 42, DA 42 M, DA
 kind = "type-certificate-data-sheet"
 revision = "issue 44 (30 Aug 2024)"
 url = "https://www.easa.europa.eu/en/downloads/7516/en"
-
 
 [sources.easa-A025]
 title = "EASA Type-Certificate Data Sheet EASA.A.025 (Schempp-Hirth Duo Discus T)"
@@ -92,7 +93,6 @@ title = "EASA Type-Certificate Data Sheet EASA.A.065 (H 36 Dimona, HK 36 Super D
 kind = "type-certificate-data-sheet"
 revision = "issue 05 (30 Mar 2021)"
 url = "https://www.easa.europa.eu/en/downloads/7394/en"
-
 
 [sources.easa-A089]
 title = "EASA Type-Certificate Data Sheet EASA.A.089 (Pilatus PC-12)"
@@ -110,7 +110,6 @@ title = "EASA Type-Certificate Data Sheet EASA.A.385 (Vulcanair P.68 series)"
 kind = "type-certificate-data-sheet"
 revision = "issue 10 (1 Aug 2023)"
 url = "https://www.easa.europa.eu/en/downloads/7150/en"
-
 
 [sources.easa-IMA007]
 title = "EASA Type-Certificate Data Sheet EASA.IM.A.007 (Cirrus SR20, SR22, SR22T)"
@@ -170,7 +169,6 @@ title = "EASA Type-Certificate Data Sheet EASA.R.009 (EC135, EC635)"
 kind = "type-certificate-data-sheet"
 revision = "issue 21 (16 Oct 2026)"
 url = "https://www.easa.europa.eu/en/downloads/7943/en"
-
 
 [sources.easa-R145]
 title = "EASA Type-Certificate Data Sheet EASA.R.145 (Guimbal Cabri G2)"
@@ -310,7 +308,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.AC50]
 models = "Aero Commander, North American Rockwell and Rockwell 500 Commander and Shrike Commander"
 airframe = "landplane"
@@ -318,7 +315,6 @@ engines = 2
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.ACAR]
 models = "Auster J-5B, J-5E, J-5G, J-5H, J-5P, J-5T and J-5V Autocar"
@@ -328,7 +324,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.AEST]
 models = "Ted Smith, Aerostar and Piper Aerostar 600 and 601 (PA-60); Machen Superstar; AICSA Aerostar"
 airframe = "landplane"
@@ -336,7 +331,6 @@ engines = 2
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.AS21]
 models = "Schleicher ASK 21 Mi"
@@ -388,7 +382,6 @@ engines = 2
 engine-type = "turboprop"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.AT5T]
 models = "Air Tractor AT-502, AT-503 and AT-504"
@@ -443,7 +436,6 @@ in the restricted category (its notes), either side of this table's 7,000 \
 kg.
 """
 
-
 [designators.B407]
 models = "Bell 407 (also the military ARH-70 and YRH-70 Arapaho); Nusantara NBell-407"
 airframe = "helicopter"
@@ -452,7 +444,6 @@ engine-type = "turboprop"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.B412]
 models = "Bell 412 (Arapaho, Griffin, Sentinel, and the military CH-146 Griffon); Agusta AB-412; Dirgantara Indonesia and Nusantara NBell-412"
 airframe = "helicopter"
@@ -460,7 +451,6 @@ engines = 2
 engine-type = "turboprop"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.B47G]
 models = "Bell 47D, 47G and 47H (OH-13 Sioux, TH-13T, UH-13H); Agusta AB-47G; Kawasaki 47G; Westland Sioux"
@@ -502,7 +492,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.BE33]
 models = "Beech 33 Debonair and Bonanza"
@@ -552,7 +541,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.BK17]
 models = "MBB-Kawasaki and Eurocopter-Kawasaki BK 117 (B and C-1); CASA, Hyundai and Nusantara licence-built"
 airframe = "helicopter"
@@ -560,7 +548,6 @@ engines = 2
 engine-type = "turboprop"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.BL8]
 models = "American Champion 8GCBC Scout"
@@ -614,7 +601,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.C177]
 models = "Cessna 177 Cardinal"
 airframe = "landplane"
@@ -622,7 +608,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.C180]
 models = "Cessna 180 Skywagon"
@@ -648,7 +633,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.C188]
 models = "Cessna 188, A188 and T188 (AgWagon, AgPickup, AgTruck, AgHusky); Aviones Colombia and FMA licence-built"
 airframe = "landplane"
@@ -656,7 +640,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.C206]
 models = "Cessna 206, P206 and U206 (Super Skywagon, Super Skylane, Stationair)"
@@ -715,7 +698,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.C402]
 models = "Cessna 401 and 402 (Businessliner, Utililiner); Aviones Colombia 402"
 airframe = "landplane"
@@ -723,7 +705,6 @@ engines = 2
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.C404]
 models = "Cessna 404 Titan"
@@ -733,7 +714,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.C441]
 models = "Cessna 441 Conquest and Conquest II"
 airframe = "landplane"
@@ -741,7 +721,6 @@ engines = 2
 engine-type = "turboprop"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.C700]
 models = "Cessna (Textron Aviation) 700 Citation Longitude"
@@ -767,7 +746,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.C82R]
 models = "Cessna R182 Skylane RG; Reims FR182"
 airframe = "landplane"
@@ -783,7 +761,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.CH7A]
 models = "Citabria 7ECA series; Aeronca 7AC Champion"
@@ -829,7 +806,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.CT4]
 models = "AESL and Pacific Aerospace CT-4 Airtrainer"
 airframe = "landplane"
@@ -868,11 +844,10 @@ twin-engined, four-seat, low-wing composite aeroplane with a retractable \
 tricycle gear and a T-tail. The DA 42 and DA 42 M have two TAE 125 engines, \
 the NG models two Austro E4; the sheet's special conditions call them \
 reciprocating diesel engines, and CASA's register has both "Diesel Engine" \
-and "Piston" under DA42. The heaviest maximum take-off mass is 1,999 kg \
+and "Piston" under DA42. The heaviest maximum take-off mass is 2,001 kg \
 (the NG models, with a modification), so light. The sheet does not use the \
 names Twin Star, Guardian or Twin Turbo, which are the order's.
 """
-
 
 [designators.DH82]
 models = "de Havilland DH-82 Tiger Moth (and Queen Bee), built by de Havilland, de Havilland Australia, de Havilland Canada and OGMA"
@@ -890,7 +865,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.DIMO]
 models = "Hoffmann H 36 Dimona; HOAC and Diamond HK 36 Super Dimona, Xtreme, Katana Xtreme, Turbo Xtreme, MPX and Eco Dimona"
 airframe = "glider"
@@ -898,22 +872,22 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-A065", "faa-jo-7360-1k"]
+checked-against = ["easa-A065"]
 notes = """
 A self-launching glider (a motor glider). The airframe is not the order's: \
 JO 7360.1K files DIMO as a fixed-wing aircraft, as it does every \
-self-launching glider, and CASA's register files every one of its 25 \
-aircraft under DIMO as a "Motor-Glider", which is where the airframe comes \
-from. The engine count, engine type and category are the order's.
-
-Still provisional, although TCDS EASA.A.065 has been read for it: the sheet \
-covers the H 36 Dimona and the HK 36 Super Dimona, HK 36 R, TS, TC, TTS, TTC \
-and TTC-ECO, each with one engine (a Limbach or a Rotax) and a maximum \
-take-off mass of 770 kg, but describes each as a low-wing airplane and does \
-not call it a glider or powered sailplane in so many words, so it does not \
-confirm the row's airframe. The Xtreme, Katana Xtreme, Turbo \
-Xtreme, MPX and Eco Dimona names are the order's alone.
+self-launching glider. CASA's register files every one of its 25 aircraft \
+under DIMO as a "Motor-Glider", and TCDS EASA.A.065 confirms it: the sheet \
+certifies every model it covers to JAR-22, the airworthiness code for \
+sailplanes and powered sailplanes (A.II.2 and its equivalent in each \
+section), and names the HK 36 R's flight manual as a motor glider's. Its \
+description of each as a low-wing aeroplane is of the configuration, not a \
+classification. The sheet covers the H 36 Dimona and the HK 36 Super \
+Dimona, HK 36 R, TS, TC, TTS, TTC and TTC-ECO, each with one engine (a \
+Limbach or a Rotax) and a maximum take-off mass of 770 kg, so light. The \
+Xtreme, Katana Xtreme, Turbo Xtreme, MPX and Eco Dimona names are the \
+order's alone.
 """
-
 
 [designators.DUOD]
 models = "Schempp-Hirth Duo Discus T"
@@ -952,7 +926,6 @@ the T2. The same sheet covers the AS 350, which has a designator of its own \
 (AS50), and it does not name the EC130 Stylence, which is the order's.
 """
 
-
 [designators.EC35]
 models = "Eurocopter and Airbus Helicopters EC135 and EC635 (H135, EC135 Bluecopter)"
 airframe = "helicopter"
@@ -970,7 +943,6 @@ marketing designation of some P3 and T3 models; it does not name the \
 Bluecopter, which is the order's.
 """
 
-
 [designators.EXEC]
 models = "RotorWay Exec (also Huzhou Taixiang's)"
 airframe = "helicopter"
@@ -983,7 +955,6 @@ The piston Exec only: JO 7360.1K gives RotorWay's turbine JetExec a \
 designator of its own, EXEJ.
 """
 
-
 [designators.G115]
 models = "Grob G 115 and G 115A to G 115E (Bavarian, Heron, Tutor)"
 airframe = "landplane"
@@ -991,7 +962,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.G2CA]
 models = "Guimbal Cabri G2"
@@ -1005,7 +975,6 @@ notes = """
 TCDS EASA.R.145 describes the Cabri G2 with a piston engine (a Lycoming \
 O-360-J2A, modified by Guimbal) and a maximum mass of 700 kg, so light.
 """
-
 
 [designators.GA8]
 models = "GippsAero (Gippsland) GA8 Airvan"
@@ -1060,7 +1029,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.H269]
 models = "Hughes and Schweizer 269 and 300 (also Hughes 200 and 280, TH-55 Osage, TH-300); Breda Nardi NH-300; Kawasaki TH-55; Sikorsky S-300"
 airframe = "helicopter"
@@ -1076,7 +1044,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.JAB4]
 models = "Jabiru J200, J230, J250, J400, J430 and J450"
@@ -1094,7 +1061,6 @@ engine-type = "jet"
 wake-turbulence-category = "medium"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.LNC2]
 models = "Lancair 200, 235, 320 and 360 (Lancair, Neico and PAI)"
 airframe = "landplane"
@@ -1102,7 +1068,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.LS4]
 models = "Rolladen-Schneider LS4"
@@ -1138,7 +1103,6 @@ with a turboprop. Those are turbine conversions the row does not describe: \
 JO 7360.1K gives the Turbine Dromader (PZL-Mielec's, and Melex's T-45) a \
 designator of its own, M18T (one turbine), not yet in this table.
 """
-
 
 [designators.M20P]
 models = "Mooney M20 to M20G, M20J, M20L, M20R, M20S and M20U"
@@ -1212,7 +1176,6 @@ and AP68TP-600 Viator, which have designators of their own (P68T and VTOR \
 in JO 7360.1K). Taneja's P.68 and the P.68 VR are the order's alone.
 """
 
-
 [designators.PA18]
 models = "Piper PA-18 Super Cub (also the military L-18C, L-21 and U-7), and the Super Cubs and derivatives of Cub Crafters (Top Cub), American Legend (AL-18), Airframes-Dakota and Super 18 (S-18), WagAero (Super Cuby, Super Sport) and others"
 airframe = "landplane"
@@ -1226,7 +1189,6 @@ PA-18T a designator of its own, P18T. It still files Turbine Cubs' PA-18 \
 and Yakima Aerosport's Super 18 Turbo Cub under PA18, with one piston \
 engine for the designator.
 """
-
 
 [designators.PA22]
 models = "Piper PA-22 Tri-Pacer, Caribbean and Colt"
@@ -1266,7 +1228,6 @@ engines = 2
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.PA30]
 models = "Piper PA-30 Twin Comanche (and Turbo) and PA-39 Twin Comanche C/R"
@@ -1355,7 +1316,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.PTS2]
 models = "Aerotek/Christen Pitts S-2A"
 airframe = "landplane"
@@ -1419,7 +1379,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.RV6]
 models = "Van's RV-6; AIEP Air Beetle; AII AVA-202"
 airframe = "landplane"
@@ -1470,7 +1429,6 @@ have designators of their own (SR20 and SR22). It does not name the "SR-22 \
 Turbo", which is the order's.
 """
 
-
 [designators.SLG4]
 models = "Airplane Factory and Sling Aircraft Sling 4 and Sling 4 TSi"
 airframe = "landplane"
@@ -1496,7 +1454,6 @@ call the engine reciprocating in so many words), maximum take-off mass \
 SR22 and SR22T, which have designators of their own (SR22 and S22T). The \
 SR20 SRV and the T-53 are the order's alone.
 """
-
 
 [designators.SR22]
 models = "Cirrus SR22"
@@ -1528,7 +1485,6 @@ files its aircraft as "Power Driven Aeroplane", which does not tell an \
 amphibian from a landplane.
 """
 
-
 [designators.SS2T]
 models = "Ayres and Thrush S-2R turbine Thrush (Turbo Thrush, 510, 550) and V-1 Vigilante; Marsh, Serv-Aero and Terr-Mar turboprop conversions"
 airframe = "landplane"
@@ -1550,7 +1506,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.SW4]
 models = "Swearingen and Fairchild SA-226 and SA-227 Metro, Merlin 4 and Expediter (also the military C-26)"
 airframe = "landplane"
@@ -1562,7 +1517,6 @@ No wake turbulence category, on purpose: JO 7360.1K gives Light/Medium, so \
 its variants fall in more than one category.
 """
 
-
 [designators.T18]
 models = "Thorp T-18 Tiger; Sunderland and Classic Sport S-18"
 airframe = "landplane"
@@ -1570,7 +1524,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.T210]
 models = "Cessna T210 Turbo Centurion"
@@ -1580,7 +1533,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.T6]
 models = "North American T-6 and AT-6 Texan and Harvard, SNJ and BC-1; Noorduyn AT-16 Harvard; CCF T-6 Harvard"
 airframe = "landplane"
@@ -1589,7 +1541,6 @@ engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 
-
 [designators.TB20]
 models = "Socata TB 20 Trinidad (also Pashosh); Shijiazhuang LE-500 Little Eagle (Xiaoying)"
 airframe = "landplane"
@@ -1597,7 +1548,6 @@ engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
 
 [designators.TOUR]
 models = "Victa, AESL and Glos-Air Airtourer; Millicer M-10 AirTourer"

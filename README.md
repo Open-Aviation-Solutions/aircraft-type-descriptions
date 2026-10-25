@@ -15,8 +15,16 @@ this crate.
 
 ## Status
 
-Early: the version is `0.1.0`. Until `1.0`, the API may change between any two
-versions, patch releases included, so pin the version exactly.
+Early: the version is `0.1.0`. The table has 17 rows, and most of them (11)
+are `provisional`: only 6 have been checked against a type certificate data
+sheet.
+
+Every change to the table is a release: its version is bumped in the pull
+request that makes the change, so merging it publishes it. Until `1.0`:
+
+- a **patch** version (`0.1.1`) adds or corrects rows and sources;
+- a **minor** version (`0.2.0`) changes the API, the data file's schema, or
+  how a row's confidence is derived.
 
 What is covered:
 
@@ -53,6 +61,17 @@ It is not a type certificate, and nothing in it replaces one. A
 `provisional` row has not been checked against a type certificate data sheet.
 
 ## Usage
+
+Add it from crates.io, pinned exactly, as au-casa does:
+
+```toml
+[dependencies]
+aircraft-type-descriptions = "=0.1.0"
+```
+
+Pinned so, a new row reaches you when you move to the version that adds it.
+A requirement of `"0.1"` takes each patch's rows on `cargo update`, and a
+patch does not change the API.
 
 ```rust
 use aircraft_type_descriptions::{AirframeKind, Confidence, DesignatorTable};

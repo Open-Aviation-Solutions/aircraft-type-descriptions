@@ -105,7 +105,7 @@
           "enum": ["piston", "turboprop", "jet", "none"]
         },
         "wake-turbulence-category": {
-          "description": "ICAO's wake turbulence category. Left out until it has been compiled for the row.",
+          "description": "ICAO's wake turbulence category. Left out when not given: not yet compiled for the row, or the type's variants fall in more than one category (the row's notes say which).",
           "enum": ["light", "medium", "heavy", "super"]
         },
         "sources": {

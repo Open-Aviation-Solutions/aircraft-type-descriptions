@@ -43,22 +43,29 @@ schema-version = 1
 # Each written once, and named by its id from each row it gives facts for.
 
 # CASA's file of the aircraft on the Australian register, one line per
-# aircraft. Nothing is copied from it. A row names it when the aircraft listed
-# under the row's designator (the ICAOtypedesig column) have the row's number
-# and kind of engines (engnum, Engtype: a turboshaft there is a turboprop here,
-# a diesel a piston). Its airframe column says "Power Driven Aeroplane" or
-# "Rotorcraft", not landplane or helicopter, so it supports a row's airframe
-# only that far. The batches of #3 are chosen in its order (aircraft per
-# designator).
+# aircraft. Nothing is copied from it. A row names it when every aircraft
+# listed under the row's designator (the ICAOtypedesig column) has the row's
+# number and kind of engines (engnum, Engtype: a turboshaft there is a
+# turboprop here, a diesel a piston); where even one differs, the row does not
+# cite it and says so in its notes. Its airframe column says "Power Driven
+# Aeroplane" or "Rotorcraft", not landplane or helicopter, so it supports a
+# row's airframe only that far. The batches of #3 are chosen in its order
+# (aircraft per designator). The file read is acrftreg.csv as CASA served it
+# on 24 Oct 2026 (last modified 21:14 UTC, 7,014,340 bytes, 16,706 aircraft,
+# SHA-256 850b2236ee380fdee91eeaff2903815e224dc5a8383635af773a4eed1c01bef5).
+# CASA replaces the file as the register changes, so that one cannot be
+# fetched again.
 [sources.casa-aircraft-register]
 title = "CASA, Australian civil aircraft register data file (acrftreg.csv)"
 kind = "reference-article"
-revision = "the file of 24 Oct 2026"
+revision = "acrftreg.csv of 24 Oct 2026 (last modified 21:14 UTC)"
 url = "https://www.casa.gov.au/aircraft/aircraft-registration/data-files-registered-aircraft"
 notes = """
-Civil Aviation Safety Authority, under CC BY 4.0. Named where the aircraft \
-registered under the designator have the row's number and kind of engines; \
-the row's note on it says how many differ, if any.
+Civil Aviation Safety Authority, licensed under CC BY 4.0 \
+(https://creativecommons.org/licenses/by/4.0/). Changed: nothing is copied; \
+the row uses counts derived from the file, and names it only where every \
+aircraft registered under the designator has the row's number and kind of \
+engines. CASA replaces the file, so this one cannot be fetched again.
 """
 
 [sources.easa-A025]
@@ -176,8 +183,10 @@ revision = "rev 24 (9 Apr 2019)"
 # powered-lift), the number and type of engines (its T, turboprop or
 # turboshaft, is turboprop here) and the ICAO wake turbulence category, which
 # paragraph 2-6 sets by maximum certificated take-off weight: light 15,400 lb
-# or less, medium more than that and less than 300,000 lb. Where it gives
-# Light/Medium (variants in both), a row leaves the category out.
+# or less, medium more than that and less than 300,000 lb (this table's
+# categories are by mass: light is 7,000 kg or less). Where it gives
+# Light/Medium (variants in both), a row leaves the category out and its notes
+# say why.
 [sources.faa-jo-7360-1k]
 title = "FAA Order JO 7360.1K, Aircraft Type Designators, Appendix A"
 kind = "reference-article"
@@ -185,7 +194,12 @@ revision = "issued 10 Apr 2025, effective 12 Jun 2025"
 url = "https://www.faa.gov/documentLibrary/media/Order/FAA_Order_JO_7360.1K_Aircraft_Type_Designators.pdf"
 notes = """
 A US Government work. It files a self-launching glider as a fixed-wing \
-aircraft, so its class does not tell a glider from an aeroplane.
+aircraft, so its class does not tell a glider from an aeroplane. On where its \
+data comes from: "The International Civil Aviation Organization (ICAO) \
+provides standard type designators" (2-1); "The FAA will conduct an \
+analysis of a new aircraft's characteristics, including wake turbulence" \
+(2-2b); "The ICAO provides a WTC for aircraft assigned a type \
+designator" (2-6).
 """
 
 [sources.faa-pitts-S-2A]
@@ -227,13 +241,14 @@ wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-R006", "faa-jo-7360-1k"]
 checked-against = ["easa-R006"]
 notes = """
-TCDS EASA.R.006 III.2: "two free turbine turboshaft engines" (two PT6C-67C \
-or -67C1), retractable tricycle gear. Its maximum take-off mass is 6,400 kg, \
-up to 6,800 kg or 7,000 kg with a kit (Note 6). 7,000 kg is a little over \
-the 15,400 lb at which JO 7360.1K's light category ends, though the order \
-gives Light; look again at the category if a consumer reads it near that \
-limit. The sheet covers the AB139 and AW139, which it says are two names for \
-the same product; the military variants are the order's alone.
+TCDS EASA.R.006 III.2 and III.5 describe two free-turbine turboshaft \
+engines (PT6C-67C or -67C1) and a retractable tricycle gear. Its maximum \
+take-off mass is 6,400 kg, or 6,800 kg or 7,000 kg with a kit (Note 6): \
+within the 7,000 kg that this table's light category allows either way. JO \
+7360.1K gives Light; it states the ICAO categories in pounds, light being \
+15,400 lb or less (paragraph 2-6, about 6,985 kg), which the 7,000 kg kit \
+would just pass. The sheet covers the AB139 and AW139, which it gives as two \
+names for one product; the military variants are the order's alone.
 """
 
 [designators.AA5]
@@ -278,11 +293,12 @@ wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-R008", "faa-jo-7360-1k"]
 checked-against = ["easa-R008"]
 notes = """
-TCDS EASA.R.008 III.2: "one turbo-shaft engine" in each AS 350 model it \
-covers (B, D, B1, B2, BA, BB, B3), a maximum mass of 1,950 to 2,250 kg. The \
-same sheet covers the EC 130 B4 and T2, which have a designator of their own \
-(EC30 in JO 7360.1K), so the sheet is not one-to-one with the designator. \
-The AS550 Fennec and the licence-built versions are the order's alone.
+TCDS EASA.R.008 III.2 gives each AS 350 model it covers (B, D, B1, B2, BA, \
+BB, B3) a single turboshaft engine, and a maximum mass of 1,950 to 2,250 kg. \
+The same sheet covers the EC 130 B4 and T2, which have a designator of their \
+own (EC30 in JO 7360.1K), so the sheet is not one-to-one with the \
+designator. The AS550 Fennec and the licence-built versions are the order's \
+alone.
 """
 
 [designators.AT5T]
@@ -300,9 +316,10 @@ engines = 1
 engine-type = "turboprop"
 sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
 notes = """
-No wake turbulence category: JO 7360.1K gives Light/Medium. The order \
-classes the designator as a landplane, the Fire Boss included; floats are \
-per airframe, so not part of the row.
+No wake turbulence category, on purpose: JO 7360.1K gives Light/Medium, so \
+its variants fall in more than one category. The order classes the \
+designator as a landplane, the Fire Boss included; floats are per airframe, \
+so not part of the row.
 """
 
 [designators.B06]
@@ -324,13 +341,12 @@ airframe = "helicopter"
 engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
-sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
-[designators.B47G.source-notes]
-casa-aircraft-register = """
-65 of the 73 aircraft registered under B47G have a piston engine; 8 have a \
-turboshaft, which the row does not describe. Look at those before relying \
-on the row for them.
+sources = ["faa-jo-7360-1k"]
+notes = """
+Not cited to CASA's register, which lists 8 of its 73 aircraft under B47G \
+with an Allison 250 turboshaft. Those are turbine conversions the row does \
+not describe: JO 7360.1K gives the Soloy turbine Bell 47 a designator of its \
+own, B47T (one turboshaft), not yet in this table.
 """
 
 [designators.BE20]
@@ -341,13 +357,13 @@ engine-type = "turboprop"
 sources = ["casa-aircraft-register", "easa-IMA277", "faa-jo-7360-1k"]
 checked-against = ["easa-IMA277"]
 notes = """
-TCDS EASA.IM.A.277 III.2 for the B200 and B200C, and for the B200GT and \
-B200CGT: "Aircraft with two wing-mounted turboprop engines, retractable \
-tricycle landing gear". The same sheet covers the B300 and B300C, which have \
-a designator of their own (BE30 in JO 7360.1K); it does not cover the \
-original 200 or the 1300. No wake turbulence category: the order gives \
-Light/Medium, although the B200's maximum take-off weight on the sheet is \
-5,669.9 kg (12,500 lb).
+TCDS EASA.IM.A.277 III.2, for the B200 and B200C and for the B200GT and \
+B200CGT, describes two turboprop engines on the wings, a retractable \
+tricycle gear and a T-tail. The same sheet covers the B300 and B300C, which \
+have a designator of their own (BE30 in JO 7360.1K); it does not cover the \
+original 200 or the 1300. No wake turbulence category, on purpose: the order \
+gives Light/Medium, so its variants fall in more than one category, although \
+the B200's maximum take-off weight on the sheet is 5,669.9 kg (12,500 lb).
 """
 
 [designators.BE33]
@@ -477,12 +493,13 @@ airframe = "landplane"
 engines = 1
 engine-type = "piston"
 wake-turbulence-category = "light"
-sources = ["casa-aircraft-register", "faa-jo-7360-1k"]
-
-[designators.C210.source-notes]
-casa-aircraft-register = """
-235 of the 236 aircraft registered under C210 have a piston engine; one has \
-a turboprop, a conversion the row does not describe.
+sources = ["faa-jo-7360-1k"]
+notes = """
+Not cited to CASA's register, which lists one of its 236 aircraft under \
+C210, a 210N, with a Walter-Motorlet 601D turboprop: a conversion the row \
+does not describe. JO 7360.1K's turbine 210 designator, C10T, lists the \
+turbine P210 (Advanced Aircraft's and Cessna's), not the 210N, so which \
+designator that aircraft should have is not settled here.
 """
 
 [designators.C310]
@@ -507,8 +524,8 @@ wake-turbulence-category = "medium"
 sources = ["easa-IMA620", "faa-jo-7360-1k"]
 checked-against = ["easa-IMA620"]
 notes = """
-The row au-casa#7 was opened for. TCDS EASA.IM.A.620 III.5: "Two Honeywell \
-AS907-2-1S Turbofan Engines"; the sheet's landing gear operating speeds show \
+The row au-casa#7 was opened for. TCDS EASA.IM.A.620 III.5 gives it two \
+Honeywell AS907-2-1S turbofans, and its landing gear operating speeds show \
 the gear retracts. Its maximum take-off weight is 17,917 kg (39,500 lb), so \
 medium, as JO 7360.1K gives. No aircraft is on CASA's register under C700, \
 so the register is not a source for this row.
@@ -620,10 +637,10 @@ wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-IMA042", "faa-jo-7360-1k"]
 checked-against = ["easa-IMA042"]
 notes = """
-TCDS EASA.IM.A.042: "Single engine, 8-seater strut braced high wing \
-aeroplane, all metal construction, fixed tricycle landing gear" (Lycoming \
-IO-540-K1A5, or TIO-540-AH1A in its second section). Maximum take-off \
-mass 1,814 kg, or 1,905 kg, so light.
+TCDS EASA.IM.A.042 III.2 describes a single-engine, eight-seat, all-metal \
+aeroplane with a strut-braced high wing and a fixed tricycle gear (a \
+Lycoming IO-540-K1A5, or a TIO-540-AH1A in its second section). Maximum \
+take-off mass 1,814 kg, or 1,905 kg, so light.
 """
 
 [designators.GLAS]
@@ -851,11 +868,10 @@ wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-A089", "faa-jo-7360-1k"]
 checked-against = ["easa-A089"]
 notes = """
-TCDS EASA.A.089 III.2 and III.4: "a large single-engine turboprop \
-multipurpose aircraft", retractable landing gear, one Pratt & Whitney \
-Canada PT6A-67B, PT6A-67P or PT6E-67XP in each of the PC-12, PC-12/45, \
-PC-12/47, PC-12/47E and PC-12/47G. The heaviest maximum take-off mass is \
-4,740 kg, so light.
+TCDS EASA.A.089 III.2 and III.4 describe a large single-engine turboprop \
+with retractable landing gear: one Pratt & Whitney Canada PT6A-67B, PT6A-67P \
+or PT6E-67XP in each of the PC-12, PC-12/45, PC-12/47, PC-12/47E and \
+PC-12/47G. The heaviest maximum take-off mass is 4,740 kg, so light.
 """
 
 [designators.PTS2]
@@ -879,8 +895,8 @@ sources = ["casa-aircraft-register", "easa-IMR120", "faa-jo-7360-1k"]
 checked-against = ["easa-IMR120"]
 notes = """
 TCDS EASA.IM.R.120 covers the R22, R22 Alpha, R22 Beta and R22 Mariner: \
-skids, "Single normally-aspirated reciprocating engine" (a Lycoming O-320, \
-or an O-360-J2A in the Beta and Mariner), maximum mass 590 to 621 kg. The \
+skids, and one normally aspirated reciprocating engine (a Lycoming O-320, or \
+an O-360-J2A in the Beta and Mariner), maximum mass 590 to 621 kg. The \
 Mariner is approved on floats, which are per airframe. JO 7360.1K also files \
 the Aero Eli Yo-Yo under R22; the sheet does not cover it.
 """
@@ -962,12 +978,12 @@ wake-turbulence-category = "light"
 sources = ["casa-aircraft-register", "easa-IMA007", "faa-jo-7360-1k"]
 checked-against = ["easa-IMA007"]
 notes = """
-TCDS EASA.IM.A.007 section B: "Single-engine, four-seat, low-wing airplane, \
-composite construction, fixed tricycle landing gear", a Continental IO-550-N \
-on Avgas (the sheet does not say "reciprocating" in words), maximum take-off \
-mass 1,542 kg or 1,633 kg, so light. The same sheet covers the SR20 and \
-SR22T, which have designators of their own (SR20, and S22T in JO 7360.1K), \
-so a logbook's "SR22" may be an SR22T.
+TCDS EASA.IM.A.007 section B describes a single-engine, four-seat, \
+low-wing composite aeroplane with a fixed tricycle gear: a Continental \
+IO-550-N on Avgas (the sheet does not call the engine reciprocating in so \
+many words), maximum take-off mass 1,542 kg or 1,633 kg, so light. The same \
+sheet covers the SR20 and SR22T, which have designators of their own (SR20, \
+and S22T in JO 7360.1K), so a logbook's "SR22" may be an SR22T.
 """
 
 [designators.SS2T]

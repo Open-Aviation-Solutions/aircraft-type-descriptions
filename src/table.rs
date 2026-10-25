@@ -112,7 +112,6 @@ mod packaged {
         AircraftDescription, AirframeKind, CitedSource, Confidence, DesignatorFacts, EngineType,
         NotToBeUsed, Source, SourceKind,
     };
-    #[allow(unused_imports)]
     use crate::description::WakeTurbulenceCategory;
 
     include!(concat!(env!("OUT_DIR"), "/packaged.rs"));

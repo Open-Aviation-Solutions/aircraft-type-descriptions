@@ -20,15 +20,10 @@ they have not yet been checked against a type certificate data sheet.
 
 Every change to the table is a release: its version is bumped in the pull
 request that makes the change, and merging it publishes it to crates.io.
-Until `1.0`:
-
-- a **patch** version adds rows for new designators, and adds or corrects
-  sources and notes, leaving every existing row's description and confidence
-  as it was;
-- a **minor** version changes the API, the data file's schema, or how a
-  row's confidence is derived, or changes an existing row's description or
-  confidence, or removes a row, since that could change how a country reads
-  it.
+Until `1.0`, a **patch** version adds rows, or corrects anything but an
+existing row's description facts, and a **minor** version changes the API,
+the schema or how confidence is derived, changes an existing row's airframe,
+engines or wake turbulence category, or removes a row. `INSTRUCTIONS.md` ("Releasing") has the rule in full, and why.
 
 What is covered:
 
@@ -77,10 +72,9 @@ aircraft-type-descriptions = "0.1"
 ```
 
 A patch release adds rows and does not change the API or an existing row's
-facts, so this takes each patch's rows on `cargo update`. au-casa takes it by
-the same range, so a consumer that uses both builds one copy, and the types
-au-casa re-exports are these. A change to the facts it classifies by comes
-in a minor release, which a caret range does not take up.
+description facts, so this takes each patch's rows on `cargo update`. au-casa
+takes it by a caret range too, so a consumer that uses both builds one copy,
+and the types au-casa re-exports are these.
 
 ```rust
 use aircraft_type_descriptions::{AirframeKind, Confidence, DesignatorTable};

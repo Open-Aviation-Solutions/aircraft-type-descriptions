@@ -4,7 +4,7 @@
 
 [package]
 name = "aircraft-type-descriptions"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MPL-2.0"
 description = "The airframe, engines and wake turbulence category of aircraft types, by type designator, each row citing its sources."

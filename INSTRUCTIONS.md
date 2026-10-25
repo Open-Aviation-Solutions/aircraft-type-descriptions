@@ -112,6 +112,11 @@ first batch (#6) learnt:
 - **The register is cited only where every aircraft under the designator
   agrees** with the row's number and kind of engines; where even one differs,
   the row does not cite it, and its notes say so.
+- **One register source, pinned to the latest file read.** A batch that reads
+  a newer `acrftreg.csv` checks every row already citing
+  `casa-aircraft-register` against it, then moves the source's revision and
+  its comment (date, size, SHA-256) to that file, rather than adding a second
+  register source; a row that no longer agrees stops citing it (#9).
 - **EASA data sheets are paraphrased, never quoted**: they are marked "All
   rights reserved".
 

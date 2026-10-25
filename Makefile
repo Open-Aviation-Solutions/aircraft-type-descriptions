@@ -18,11 +18,12 @@ ADDLICENSE_SHA256_macOS_arm64 := 0597305c619f7349748e830e38322dbe7d13cf86cf415b2
 ADDLICENSE_SHA256 := $(ADDLICENSE_SHA256_$(ADDLICENSE_PLATFORM))
 SHA256SUM := $(if $(shell command -v sha256sum),sha256sum,shasum -a 256)
 
-.PHONY: help dev build test schema-check lint fmt fmt-check license-add license-check check
+.PHONY: help dev build test schema-check lint fmt fmt-check license-add license-check check \
+	candidates candidates-test
 
 help: ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
 dev: build ## Start the development environment (builds the crate)
 
@@ -63,11 +64,26 @@ $(ADDLICENSE):
 license-add: $(ADDLICENSE) ## Add the MPL notice to each tracked source file that has none
 	git ls-files -z | xargs -0 $(ADDLICENSE) -l mpl
 
-# addlicense checks the tracked files of the types it knows (Rust, TOML, YAML)
-# for a licence header, and passes over the rest (Cargo.lock, Markdown, LICENSE).
+# addlicense checks the tracked files of the types it knows (Rust, TOML, YAML,
+# Python, HTML) for a licence header, and passes over the rest (Cargo.lock,
+# Markdown, .gitignore, LICENSE).
 # It does not recognise a Makefile, so it does not check this one.
 license-check: $(ADDLICENSE) ## Check that each source file carries a licence header
 	git ls-files -z | xargs -0 $(ADDLICENSE) -check -l mpl
 
 # test runs the schema check too (tests/schema.rs), so check does not name it.
 check: lint fmt-check license-check test ## Run all checks: lint, format check, licence headers, tests (with the schema check)
+
+# --- Temporary: compiling batches of rows (#8) -------------------------------
+#
+# Removed with tools/compile-batches/ once the table's input is compiled (see
+# its README.md). Nothing above depends on these targets; `check` does not run
+# them.
+
+N ?= 50
+
+candidates: ## (Temporary) Print the next N designators to compile (N=50; REGISTER=file REGISTER_DATE=date, REFRESH=1)
+	python3 -I tools/compile-batches/candidates.py -n $(N)$(if $(REGISTER), --register "$(REGISTER)")$(if $(REGISTER_DATE), --register-date "$(REGISTER_DATE)")$(if $(REFRESH), --refresh)
+
+candidates-test: ## (Temporary) Test the batch tooling's parser of JO 7360.1's Appendix A
+	python3 -I tools/compile-batches/test_appendix_a.py

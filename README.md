@@ -18,17 +18,13 @@ this crate.
 Early (0.x). The table is small, and most of its rows are `provisional`:
 they have not yet been checked against a type certificate data sheet.
 
-A change to the table bumps the version in the pull request that makes it.
+Every change to the table is a release: its version is bumped in the pull
+request that makes the change, and merging it publishes it to crates.io.
 Until `1.0`:
 
 - a **patch** version adds or corrects rows and sources;
 - a **minor** version changes the API, the data file's schema, or how a
   row's confidence is derived.
-
-The first release, `0.1.0`, is published to crates.io by hand. Until the
-Release workflow lands
-([#5](https://github.com/Open-Aviation-Solutions/aircraft-type-descriptions/issues/5)),
-a version bump merged to `main` is not published by itself.
 
 What is covered:
 

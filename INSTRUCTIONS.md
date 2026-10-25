@@ -94,23 +94,34 @@ as au-casa for CASA's Part 61.
 
 ## Releasing
 
-A pull request that changes the data file, the schema or the crate bumps
-`version` in `Cargo.toml` (and `Cargo.lock`). Until `1.0`:
+Bump `version` in `Cargo.toml` in the pull request that changes the data
+file, the schema or the crate, update `Cargo.lock` to match
+(`cargo update --workspace`; `make check` runs cargo with `--locked`, so a
+stale one fails), and merge it: that is the release. Until `1.0`:
 
 - a **patch** for rows and sources added or corrected;
 - a **minor** version for a change to the API, to the data file's schema, or
   to how confidence is derived.
 
-The first release, `0.1.0`, is published by hand by the maintainer, from
-`main` (`cargo publish --locked`), since crates.io's trusted publishing can
-only be set up for a crate it already has. After publishing it, the
-maintainer tags that commit `v0.1.0` by hand, as an annotated tag.
+On each push to `main`, the Release workflow (`.github/workflows/release.yml`)
+asks crates.io whether `Cargo.toml`'s version is there yet. When it is not,
+it runs `make check`, publishes it through trusted publishing (no crates.io
+token is kept in the repository), and tags the commit `v<version>`. Don't
+push version tags by hand: nothing runs on them. The one exception: if a
+version is on crates.io but the workflow failed to push its tag, the
+maintainer tags that merge commit `v<version>` by hand, since a re-run does
+not tag it: with the version already there, it skips publishing, or fails at
+`cargo publish`.
 
-There is no Release workflow yet: it comes in a pull request of its own, the
-second step of #5. Until it merges, a version bump merged to `main` is not
-published. Once it has, the workflow publishes each new version merged to
-`main` and tags it `v<version>`, so every tag after `v0.1.0` comes from the
-workflow, not by hand. That pull request says here how it works.
+Only `main` can release. The publishing job runs in the `release`
+environment, which GitHub allows only on `main`, and crates.io's trusted
+publisher accepts only that environment; `main` changes only through a pull
+request with CI passing.
+
+The first release, `0.1.0`, was published by hand by the maintainer, from
+`main`, since crates.io's trusted publishing can only be set up for a crate
+it already has, and its tag, `v0.1.0`, was pushed by hand. Every tag after it
+comes from the workflow.
 
 What is published is `Cargo.toml`'s `include` list: the crate's source and
 tests, `build.rs`, the data file and its schema, the README and the licence.

@@ -26,19 +26,23 @@ help: ## List available targets
 
 dev: build ## Start the development environment (builds the crate)
 
+# --locked throughout, so that a Cargo.lock that does not match Cargo.toml (a
+# version bumped in one and not the other) fails here, and in CI, rather than
+# being rewritten on the runner and refused by `cargo publish --locked` after
+# the merge. After bumping the version, `cargo update --workspace` updates it.
 build: ## Compile the crate
-	cargo build
+	cargo build --locked
 
 test: ## Run the test suite
-	cargo test
+	cargo test --locked
 
 # The data file's cross-references (each source a row names is listed, and so
 # on) are checked by build.rs, so every target that builds the crate checks them.
 schema-check: ## Check that the data file fits its schema
-	cargo test --test schema
+	cargo test --locked --test schema
 
 lint: ## Lint with clippy, treating warnings as errors
-	cargo clippy --all-targets -- -D warnings
+	cargo clippy --locked --all-targets -- -D warnings
 
 fmt: ## Format the code
 	cargo fmt

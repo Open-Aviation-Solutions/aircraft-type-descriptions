@@ -12,7 +12,10 @@ on:
   push:
     branches: [main]
 
-# One release at a time, in the order of the pushes.
+# One release at a time, in the order of the pushes. GitHub keeps one run
+# running and at most one pending in the group: a third push while one runs
+# and one waits cancels the waiting run, whose version is then not published
+# until a later bump carries it.
 concurrency:
   group: release
   cancel-in-progress: false

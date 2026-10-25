@@ -94,9 +94,10 @@ as au-casa for CASA's Part 61.
 
 ## Releasing
 
-Bump `version` in `Cargo.toml` (and `Cargo.lock`) in the pull request that
-changes the data file, the schema or the crate, and merge it: that is the
-release. Until `1.0`:
+Bump `version` in `Cargo.toml` in the pull request that changes the data
+file, the schema or the crate, update `Cargo.lock` to match
+(`cargo update --workspace`; `make check` runs cargo with `--locked`, so a
+stale one fails), and merge it: that is the release. Until `1.0`:
 
 - a **patch** for rows and sources added or corrected;
 - a **minor** version for a change to the API, to the data file's schema, or
@@ -106,7 +107,11 @@ On each push to `main`, the Release workflow (`.github/workflows/release.yml`)
 asks crates.io whether `Cargo.toml`'s version is there yet. When it is not,
 it runs `make check`, publishes it through trusted publishing (no crates.io
 token is kept in the repository), and tags the commit `v<version>`. Don't
-push version tags by hand: nothing runs on them.
+push version tags by hand: nothing runs on them. The one exception: if a
+version is on crates.io but the workflow failed to push its tag, the
+maintainer tags that merge commit `v<version>` by hand, since a re-run does
+not tag it: with the version already there, it skips publishing, or fails at
+`cargo publish`.
 
 Only `main` can release. The publishing job runs in the `release`
 environment, which GitHub allows only on `main`, and crates.io's trusted

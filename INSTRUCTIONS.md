@@ -53,11 +53,18 @@ as au-casa for CASA's Part 61.
 - **Confidence is not written; it follows from the sources.** A row is
   `confirmed` when `checked-against` names a source of kind
   `type-certificate-data-sheet`, and `provisional` otherwise. Name a source in
-  `checked-against` only when someone has read it for that row.
+  `checked-against` only when someone has read it for that row. A row read
+  against a sheet that covers only some of the designator's models stays
+  `confirmed`, and its notes name the models the sheet does not cover.
 - **ICAO Doc 8643 is not used or cited**: not as a source, and not to check
   or flag a row (au-casa#7, au-casa#10). No list, table or description code of
   it is copied here. `GLID` cites SKYbrary's article on type designators, as
-  decided on au-casa#7; that is an exception for that row.
+  decided on au-casa#7; that is an exception for that row. FAA Order JO
+  7360.1 is a source in its own right, although its designators and wake
+  turbulence categories are ICAO's: it is a US Government work, published
+  under the FAA's own authority with its own analysis (its paragraph 2-2b), so
+  its class, engine and category columns may be used (decided on #3, 25
+  October 2026).
 - The table is a value (`DesignatorTable::packaged()`), not a global, so that
   a table from elsewhere can be added later without changing what a caller of
   `lookup` sees. Keep `lookup` returning `None` for a designator it does not

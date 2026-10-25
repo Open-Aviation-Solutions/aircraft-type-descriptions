@@ -11,7 +11,8 @@
 //! - [`AircraftDescription`] carries the wake turbulence category again
 //!   ([`WakeTurbulenceCategory`]). au-casa had left it out because no Part 61
 //!   rule uses it, which would make a shared table quietly incomplete. It is
-//!   optional, since no row has had it compiled yet.
+//!   optional: a row leaves it out where it has not been compiled yet, or
+//!   where the type's variants fall in more than one category.
 //! - [`AirframeKind`] carries `Glider` and `Airship` as kinds of airframe of
 //!   their own, so that a glider and an airship can be told apart from other
 //!   airframes.
@@ -92,9 +93,10 @@ pub struct AircraftDescription {
     pub airframe: AirframeKind,
     pub engine_count: u8,
     pub engine_type: EngineType,
-    /// `None` until it has been compiled for the type. Left out of the JSON
-    /// when `None`, so a description serialised before it was carried reads
-    /// the same.
+    /// `None` when not given: either it has not been compiled for the type,
+    /// or the type's variants fall in more than one category (the row's
+    /// notes say which). Left out of the JSON when `None`, so a description
+    /// serialised before it was carried reads the same.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub wake_turbulence_category: Option<WakeTurbulenceCategory>,
 }

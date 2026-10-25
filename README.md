@@ -20,12 +20,15 @@ versions, patch releases included, so pin the version exactly.
 
 What is covered:
 
-- **The table** (`aircraft-type-descriptions.toml`): a small table of
-  designators that grows as types are needed, moved from au-casa. Each row
-  gives the models the designator covers, its kind of airframe, the number and
-  kind of its engines, the sources those facts come from, and notes on what is
-  left to check. A row is `confirmed` when someone has read a type certificate
-  data sheet for it, and `provisional` otherwise.
+- **The table** (`aircraft-type-descriptions.toml`): a table of designators
+  that grows as types are needed and in batches compiled from public sources
+  ([#3](https://github.com/Open-Aviation-Solutions/aircraft-type-descriptions/issues/3)),
+  starting from the rows moved from au-casa. Each row gives the models the
+  designator covers, its kind of airframe, the number and kind of its engines,
+  its wake turbulence category where a source gives one, the sources those
+  facts come from, and notes on what is left to check. A row is `confirmed`
+  when someone has read a type certificate data sheet for it, and
+  `provisional` otherwise.
 - **Designators not to be used**, such as `PA28`, each with what replaces it.
 - **The crate** (`DesignatorTable::packaged()`, `lookup`): the table, built
   from the file when the crate is built, so no TOML is parsed when it runs.
@@ -34,10 +37,10 @@ What is covered:
 
 Known not to be done yet:
 
-- No row has its wake turbulence category yet: the field is there, and is
-  filled in as each row's maximum take-off mass is read from its sources.
-- Most designators are not in the table, `C700` among them
-  ([au-casa#7](https://github.com/Open-Aviation-Solutions/au-casa/issues/7)).
+- The rows moved from au-casa have no wake turbulence category yet: the field
+  is there, and is filled in where a source a row names gives it.
+- Most designators are not in the table yet: compiled batches add them a few
+  at a time, in order of the number of aircraft on CASA's register.
 
 ## Where the facts come from
 

@@ -199,7 +199,10 @@ data comes from: "The International Civil Aviation Organization (ICAO) \
 provides standard type designators" (2-1); "The FAA will conduct an \
 analysis of a new aircraft's characteristics, including wake turbulence" \
 (2-2b); "The ICAO provides a WTC for aircraft assigned a type \
-designator" (2-6).
+designator" (2-6). Even so it is a source in its own right, decided on #3 \
+on 25 Oct 2026: a US Government work, published under the FAA's own \
+authority with its own analysis (2-2b), so taking its class, engine and WTC \
+columns is within the rule on Doc 8643.
 """
 
 [sources.faa-pitts-S-2A]
@@ -248,7 +251,8 @@ within the 7,000 kg that this table's light category allows either way. JO \
 7360.1K gives Light; it states the ICAO categories in pounds, light being \
 15,400 lb or less (paragraph 2-6, about 6,985 kg), which the 7,000 kg kit \
 would just pass. The sheet covers the AB139 and AW139, which it gives as two \
-names for one product; the military variants are the order's alone.
+names for one product; the military UH-139, HH-139, VH-139 and MH-139 are \
+the order's alone.
 """
 
 [designators.AA5]
@@ -297,8 +301,9 @@ TCDS EASA.R.008 III.2 gives each AS 350 model it covers (B, D, B1, B2, BA, \
 BB, B3) a single turboshaft engine, and a maximum mass of 1,950 to 2,250 kg. \
 The same sheet covers the EC 130 B4 and T2, which have a designator of their \
 own (EC30 in JO 7360.1K), so the sheet is not one-to-one with the \
-designator. The AS550 Fennec and the licence-built versions are the order's \
-alone.
+designator. It gives H125 as the marketing name of the AS 350 B3e. The \
+AS550 Fennec and the licence-built versions (Helibras, Changhe, Avicopter) \
+are the order's alone.
 """
 
 [designators.AT5T]
@@ -360,8 +365,10 @@ notes = """
 TCDS EASA.IM.A.277 III.2, for the B200 and B200C and for the B200GT and \
 B200CGT, describes two turboprop engines on the wings, a retractable \
 tricycle gear and a T-tail. The same sheet covers the B300 and B300C, which \
-have a designator of their own (BE30 in JO 7360.1K); it does not cover the \
-original 200 or the 1300. No wake turbulence category, on purpose: the order \
+have a designator of their own (BE30 in JO 7360.1K). Of the models the \
+order lists under BE20, it does not cover the original 200, the 1300 \
+Commuter or the military C-12 models, and does not name the King Air 250 or \
+260. No wake turbulence category, on purpose: the order \
 gives Light/Medium, so its variants fall in more than one category, although \
 the B200's maximum take-off weight on the sheet is 5,669.9 kg (12,500 lb).
 """
@@ -852,11 +859,11 @@ engine-type = "piston"
 sources = ["easa-IMA232"]
 checked-against = ["easa-IMA232"]
 notes = """
-EASA IM.A.232 A.III.2 describes it outright: "Twin engine reciprocating, \
-all-metal, four-place, unpressurized, low wing aeroplane, retractable \
-tricycle landing gear." Engines are Lycoming O-360/LO-360. The EASA sheet is \
-used because it states the configuration explicitly; the FAA equivalent is \
-A19SO.
+EASA IM.A.232 A.III.2 describes it outright as a four-seat, all-metal, \
+unpressurized low-wing aeroplane with two reciprocating engines and a \
+retractable tricycle gear. Engines are Lycoming O-360/LO-360. The EASA sheet \
+is used because it states the configuration explicitly; the FAA equivalent \
+is A19SO.
 """
 
 [designators.PC12]

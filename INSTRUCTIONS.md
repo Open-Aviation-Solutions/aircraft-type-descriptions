@@ -164,7 +164,9 @@ stale one fails), and merge it: that is the release. Until `1.0`:
   to how confidence is derived; for a change to an existing row's description
   facts (its airframe, number or kind of engines, or wake turbulence
   category); and for a row removed, which includes a row moved to
-  `[not-to-be-used]`.
+  `[not-to-be-used]` (the build refuses a designator that is both a row and
+  in that list, so moving a row there removes it) and a row's designator
+  renamed (one row removed and another added).
 
 **Why a data change can be a minor release** (decided on
 [au-casa#24](https://github.com/Open-Aviation-Solutions/au-casa/issues/24)):

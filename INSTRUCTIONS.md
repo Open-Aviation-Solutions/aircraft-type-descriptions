@@ -69,12 +69,14 @@ as au-casa for CASA's Part 61.
   a table from elsewhere can be added later without changing what a caller of
   `lookup` sees. Keep `lookup` returning `None` for a designator it does not
   have, rather than guessing.
-- **Layer A has two things in it for Part 61, both documented** in
-  `src/description.rs`: `AirframeKind` carries `Glider` and `Airship` as kinds
-  of airframe of their own, and `EngineType::is_gas_turbine` is there for a
-  Part 61 design feature. Do not
-  narrow the types to suit one country without saying so there, since a
-  consumer cannot see what is missing.
+- **Do not narrow a type to suit one country.** The types in
+  `src/description.rs` say what is true of an aircraft wherever it flies:
+  `AirframeKind` has `Glider` and `Airship` so that either can be told apart
+  from other airframes, and `EngineType::is_gas_turbine` states a fact about
+  an engine. They were narrowed once, when they were au-casa's and Part 61
+  shaped them; they were widened on moving here. If a type must leave
+  something out, or carry something for one consumer, say so in its docs
+  there, since a consumer cannot see what is missing.
 
 ## Compiling a batch (temporary)
 

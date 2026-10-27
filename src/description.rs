@@ -4,30 +4,28 @@
 
 //! The description of an aircraft type: what is true of it wherever it flies.
 //!
-//! These types moved here from au-casa, where Part 61 had narrowed them in
-//! three places. On the move, the one a consumer could not see is undone, and
-//! the other two stay, documented:
+//! Nothing here is narrowed to suit one country:
 //!
-//! - [`AircraftDescription`] carries the wake turbulence category again
-//!   ([`WakeTurbulenceCategory`]). au-casa had left it out because no Part 61
-//!   rule uses it, which would make a shared table quietly incomplete. It is
-//!   optional: a row leaves it out where it has not been compiled yet, or
-//!   where the type's variants fall in more than one category.
+//! - [`AircraftDescription`] carries the wake turbulence category
+//!   ([`WakeTurbulenceCategory`]). It is optional: a row leaves it out where
+//!   it has not been compiled yet, or where the type's variants fall in more
+//!   than one category.
 //! - [`AirframeKind`] carries `Glider` and `Airship` as kinds of airframe of
 //!   their own, so that a glider and an airship can be told apart from other
 //!   airframes.
 //! - [`EngineType::is_gas_turbine`] says which kinds of engine are gas
-//!   turbines; it is there because Part 61's design features (reg 61.755) ask.
+//!   turbines.
 
 use serde::{Deserialize, Serialize};
 
 /// What sort of airframe a type is.
 ///
 /// `Glider` and `Airship` are kinds of airframe beyond the landplane,
-/// seaplane, amphibian, helicopter, gyrocopter and tiltrotor, carried so that
-/// a glider and an airship can be described at all: CASA's Part 61, for
-/// one, needs to reach the airship category (reg 61.015(e)) and registered
-/// sailplanes (reg 61.007(2)).
+/// seaplane, amphibian, helicopter, gyrocopter and tiltrotor. They are there
+/// so that a glider and an airship can be described at all, and told apart
+/// from other airframes: a country's rules may treat either as a category of
+/// its own, and a description that could not say which an aircraft is would
+/// leave that to guesswork.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum AirframeKind {
@@ -64,8 +62,12 @@ pub enum EngineType {
 }
 
 impl EngineType {
-    /// Whether this kind of engine is a gas turbine, as CASA's reg 61.755
-    /// `gas turbine engine` design feature asks.
+    /// Whether this kind of engine is a gas turbine.
+    ///
+    /// `TurboProp` (which covers a turboshaft) and `Jet` are; `Piston` and
+    /// `None` are not. `Jet` means a turbojet or turbofan, both gas turbines.
+    /// There is no value for a pulsejet, ramjet or rocket: if one is ever
+    /// added as an engine type, revisit this method.
     pub fn is_gas_turbine(self) -> bool {
         matches!(self, Self::TurboProp | Self::Jet)
     }
@@ -110,5 +112,18 @@ impl AircraftDescription {
             engine_type,
             wake_turbulence_category: None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn only_turboprop_and_jet_are_gas_turbines() {
+        assert!(!EngineType::Piston.is_gas_turbine());
+        assert!(EngineType::TurboProp.is_gas_turbine());
+        assert!(EngineType::Jet.is_gas_turbine());
+        assert!(!EngineType::None.is_gas_turbine());
     }
 }

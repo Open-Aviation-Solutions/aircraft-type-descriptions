@@ -73,10 +73,14 @@ as au-casa for CASA's Part 61.
   `src/description.rs` say what is true of an aircraft wherever it flies:
   `AirframeKind` has `Glider` and `Airship` so that either can be told apart
   from other airframes, and `EngineType::is_gas_turbine` states a fact about
-  an engine. They were narrowed once, when they were au-casa's and Part 61
-  shaped them; they were widened on moving here. If a type must leave
-  something out, or carry something for one consumer, say so in its docs
-  there, since a consumer cannot see what is missing.
+  an engine. A type that leaves something out, or carries something that is
+  not a general fact about the aircraft, says so in its docs there, since a
+  consumer cannot see what is missing.
+- **The wake turbulence category was restored on the move from au-casa.**
+  There, Part 61 had narrowed the types: au-casa left the category out
+  because no Part 61 rule uses it, which made a shared table quietly
+  incomplete. `AircraftDescription` carries it again, even where no consumer
+  reads it. `Glider`, `Airship` and `is_gas_turbine` were kept as they were.
 
 ## Compiling a batch (temporary)
 

@@ -85,3 +85,12 @@ fn a_designator_not_to_be_used_says_what_replaces_it() {
     assert_eq!(pa28.replaced_by, ["P28A", "P28B", "P28R", "P28T", "P28U"]);
     assert!(DesignatorTable::packaged().not_to_be_used("P28A").is_none());
 }
+
+#[rstest]
+#[case::piston(EngineType::Piston, false)]
+#[case::turboprop(EngineType::TurboProp, true)]
+#[case::jet(EngineType::Jet, true)]
+#[case::none(EngineType::None, false)]
+fn which_engine_types_are_gas_turbines(#[case] engine: EngineType, #[case] expected: bool) {
+    assert_eq!(engine.is_gas_turbine(), expected);
+}

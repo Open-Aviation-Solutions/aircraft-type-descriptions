@@ -4,10 +4,11 @@
 
 //! The description of an aircraft type: what is true of it wherever it flies.
 //!
-//! Nothing here is narrowed to suit one country:
+//! Nothing here is narrowed to suit one country, or to what one consumer reads:
 //!
 //! - [`AircraftDescription`] carries the wake turbulence category
-//!   ([`WakeTurbulenceCategory`]). It is optional: a row leaves it out where
+//!   ([`WakeTurbulenceCategory`]) even where no consumer reads it, since a
+//!   shared table that leaves it out is quietly incomplete. It is optional: a row leaves it out where
 //!   it has not been compiled yet, or where the type's variants fall in more
 //!   than one category.
 //! - [`AirframeKind`] carries `Glider` and `Airship` as kinds of airframe of
@@ -67,9 +68,13 @@ impl EngineType {
     /// `TurboProp` (which covers a turboshaft) and `Jet` are; `Piston` and
     /// `None` are not. `Jet` means a turbojet or turbofan, both gas turbines.
     /// There is no value for a pulsejet, ramjet or rocket: if one is ever
-    /// added as an engine type, revisit this method.
+    /// added as an engine type, revisit this method; the `match` is
+    /// exhaustive so that the compiler asks for that.
     pub fn is_gas_turbine(self) -> bool {
-        matches!(self, Self::TurboProp | Self::Jet)
+        match self {
+            Self::TurboProp | Self::Jet => true,
+            Self::Piston | Self::None => false,
+        }
     }
 }
 
@@ -112,18 +117,5 @@ impl AircraftDescription {
             engine_type,
             wake_turbulence_category: None,
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn only_turboprop_and_jet_are_gas_turbines() {
-        assert!(!EngineType::Piston.is_gas_turbine());
-        assert!(EngineType::TurboProp.is_gas_turbine());
-        assert!(EngineType::Jet.is_gas_turbine());
-        assert!(!EngineType::None.is_gas_turbine());
     }
 }
